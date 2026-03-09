@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Автоматизация ресторанного бизнеса с LLM | Исследование v3.0</title>
+  <meta name="description" content="15 AI-инструментов для российского общепита: ЕГАИС, Меркурий, Честный знак, iiko, налоговая реформа 2025-2026">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
+  <style>
+    body { margin: 0; padding: 0; }
+    #root { min-height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.12.7/Recharts.min.js"></script>
+
+  <script type="text/babel">
+const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Area, AreaChart, Legend } = Recharts;
+
+
+/* ── DATA ── */
+const mkt=[{y:"2020",v:1.45},{y:"2021",v:1.95},{y:"2022",v:2.5},{y:"2023",v:2.83},{y:"2024",v:3.44},{y:"2025",v:4.29}];
+const sal=[{r:"Повар",s:70,p:53},{r:"Бармен",s:60,p:45},{r:"Официант",s:65,p:48},{r:"Кондитер",s:70,p:52},{r:"Мойщик",s:50,p:35},{r:"Курьер",s:100,p:75}];
+const cls=[{t:"Суши-бары",c:-7.5},{t:"Пиццерии",c:-6.4},{t:"Кафе",c:-2.8},{t:"Рестораны",c:-1.7},{t:"Чайханы",c:130}];
+const tax=[{y:"2025",l:60},{y:"2026",l:20},{y:"2027",l:15},{y:"2028",l:10}];
+const radar=[{s:"Кадры",A:95},{s:"Издержки",A:88},{s:"Налоги",A:82},{s:"Маркетинг",A:75},{s:"Комплаенс",A:78},{s:"Доставка",A:70}];
+const roiD=[{n:"Контент",i:24,s:660},{n:"Отзывы",i:24,s:500},{n:"Food cost",i:10,s:2000},{n:"Tg-бот",i:60,s:800},{n:"Инвойсы",i:5,s:300},{n:"HR",i:24,s:400}];
+
+const tools=[
+{id:1,cat:"marketing",name:"AI-контент для соцсетей",icon:"📱",one:"Автогенерация постов и контент-планов для VK, Telegram, Instagram",what:"Скрипт на Claude API по расписанию генерирует контент-план: темы, тексты, хештеги, рекомендации по визуалу. Параметры задаёте один раз (кухня, стиль, акции) — дальше система работает сама.",hw:["Заполняете шаблон: кухня, меню, акции, события","Claude генерирует план на 30 дней с текстами и хештегами","Результат в Google Sheets / Notion через MCP","Уведомление в Telegram с готовым планом","Фотографируете блюдо и публикуете с готовым текстом"],stack:"Claude API + Python + cron + Google Sheets + Telegram Bot",ex:"Промпт: Ты SMM грузинского ресторана Мимино. Весна. Бизнес-ланч 450₽. 8 марта. Сгенерируй 15 постов Instagram + 8 Telegram на март.",sv:"5-10 ч/нед",mn:"Заменяет SMM 30-80K ₽/мес",cx:"medium",rt:"2-3 нед",tl:"Нед 1: Claude API, промпты, тест. Нед 2: автоматизация cron + Sheets. Нед 3: тест на реальном контенте, калибровка тона.",pr:"Claude API ($20/мес), базовый Python или n8n"},
+{id:2,cat:"marketing",name:"Умный ответчик на отзывы",icon:"⭐",one:"Мониторинг Яндекс.Карт + автогенерация персонализированных ответов",what:"Скрипт проверяет новые отзывы на площадках; Claude анализирует тональность и пишет ответ. Негативные (1-2★) → алерт владельцу. Остальные → автоматически после одобрения.",hw:["Скрипт раз в день проверяет отзывы через API","Claude получает отзыв + контекст ресторана","Генерирует: благодарность → признание → решение → приглашение","1-2★ → алерт в Telegram владельцу","3-5★ → публикуются после одобрения"],stack:"Claude API + Python + Яндекс.Бизнес API + Telegram Bot",ex:"«Ждали 50 минут, пицца тёплая» → «Спасибо за отзыв. 50 минут — действительно долго. Разобрали с кухней. Будем рады пригласить снова.»",sv:"3-5 ч/нед",mn:"Рост рейтинга +0.3-0.5★ за 3 мес",cx:"medium",rt:"2-4 нед",tl:"Нед 1: мониторинг API. Нед 2: промпт-инженерия. Нед 3: Telegram алерты. Нед 4: тест на реальных отзывах.",pr:"Яндекс.Бизнес API, Claude API"},
+{id:3,cat:"marketing",name:"Описания блюд + SEO",icon:"📝",one:"Продающие описания для меню + SEO-оптимизация сайта под Яндекс",what:"Загружаете список блюд — получаете сенсорные описания, SEO-мета-теги, Schema.org разметку, перевод на английский для туристов.",hw:["Таблица: блюдо → ингредиенты → способ → цена","Claude: короткое описание (меню) + длинное (сайт) + мета-теги","Перевод на английский","Schema.org (калории, аллергены, цена)"],stack:"Claude.ai (ручной) или Claude API пакетно",ex:"«Хинкали, баранина, кинза» → «Сочные хинкали ручной лепки — нежное тесто скрывает ароматную начинку из молодой баранины с букетом кавказских специй.»",sv:"8-16 ч/сезон",mn:"Рост конверсии меню на сайте",cx:"low",rt:"3-5 дней",tl:"День 1-2: таблица блюд. День 3: генерация, проверка шефом. День 4-5: размещение на сайте.",pr:"Список блюд с ингредиентами"},
+{id:4,cat:"finance",name:"Калькулятор food cost",icon:"💰",one:"Себестоимость каждого блюда, матрица прибыльности, алерты подорожания",what:"Python/Excel: рецептуры + прайсы → food cost блюда (руб/%), матрица Stars/Dogs, рекомендации. При обновлении прайса → автопересчёт + алерт если >35%. Claude предлагает замену ингредиентов.",hw:["Рецептуры: блюдо → ингредиент → граммовка","Прайсы: ингредиент → цена/кг → поставщик","Расчёт: себестоимость, food cost %, маржа","Матрица: популярность × прибыльность","Stars → продвигать. Dogs → убрать","Алерт при food cost >35%","Claude предлагает замены ингредиентов"],stack:"Claude Code (Python/Pandas) или Excel + iiko API",ex:"Цезарь: себестоимость 187₽, цена 590₽, food cost 31.7%, Star. Рекомендация: поднять до 650₽.",sv:"3-8% маржи",mn:"При 3 млн/мес = 90-240K ₽/мес",cx:"medium",rt:"2-4 нед",tl:"Нед 1: оцифровка техкарт. Нед 2: прайсы + скрипт. Нед 3: тест 10-15 блюд. Нед 4: всё меню + алерты.",pr:"Техкарты с граммовками, прайсы, данные из POS"},
+{id:5,cat:"finance",name:"Налоговый ассистент",icon:"📊",one:"УСН/ОСНО, льгота НДС ст.149, зарплатный критерий — сценарный анализ",what:"Промпты для Claude: вводите данные — получаете анализ оптимального режима. Расчёт по 3-4 сценариям, чек-лист для сохранения льготы. НЕ заменяет бухгалтера, но экономит 80% времени.",hw:["Анкета: система, выручка, сотрудники, ФОТ, регион","Проверка автоосвобождения (лимит 20 млн с 2026)","Проверка льготы ст.149: доход, доля общепита, зарплата","Расчёт сценариев: УСН 6% / УСН+НДС 5% / ОСНО+льгота","Чек-лист для сохранения льготы"],stack:"Claude.ai (промпт). Продвинуто: Claude Code + Excel",ex:"ООО, УСН 6%, 25 млн, 12 сотрудников, Москва → Льгота ст.149 ОК. Экономия ~1.25 млн ₽/год.",sv:"100-500K ₽/год",mn:"Защита от ошибок ценой сотен тысяч",cx:"low",rt:"3-5 дней",tl:"День 1-2: изучение правил. День 3: промпт. День 4-5: тест + проверка бухгалтером.",pr:"Выручка, ФОТ, система налогообложения"},
+{id:6,cat:"finance",name:"Автосортировка инвойсов",icon:"📄",one:"OCR накладных → извлечение данных → подготовка импорта в 1С",what:"Claude Code Skill: читает PDF, извлекает поля, переименовывает, раскладывает по папкам, готовит CSV для 1С. Сверка с банком.",hw:["Сканируете накладные или получаете через ЭДО","OCR / парсинг PDF","Извлечение: дата, поставщик, позиции, суммы, НДС","Переименование по стандарту","Раскладка по папкам","CSV для импорта в 1С","Сверка с банковской выпиской"],stack:"Claude Code + Python + Tesseract + СБИС API",ex:"47 PDF за неделю → таблица, файлы отсортированы, CSV для 1С. 2 расхождения с банком.",sv:"4-6 ч/нед",mn:"200-300 часов бухгалтера/год",cx:"high",rt:"3-5 нед",tl:"Нед 1: анализ форматов. Нед 2: OCR + парсер. Нед 3: Claude для нестандартных. Нед 4: тест. Нед 5: экспорт 1С.",pr:"Примеры накладных, формат 1С"},
+{id:7,cat:"hr",name:"HR-конвейер",icon:"👥",one:"Вакансии hh.ru → скрининг → onboarding → мотивация (vs курьеры Яндекса)",what:"Библиотека промптов для всего HR-цикла: вакансии (конкурируем с курьерами!), скрипты собеседований, onboarding, карточки блюд, мотивационные программы.",hw:["Вакансии для hh.ru/Avito: гибкий график, чаевые, атмосфера","Скрининг: телефонное интервью + оценочная матрица","Onboarding: должность, чек-лист 3 дней, карточки блюд","SOP для каждой роли","Мотивация: рейтинги, бонусы за чек и продажи"],stack:"Claude.ai → Google Docs / Notion",ex:"«Вакансия повара, 65K + питание, 2/2, открытая кухня. Конкурируем с курьерами (5000₽/смена).»",sv:"5-10 ч/найм",mn:"Снижение текучки 10% = сотни тысяч/год",cx:"low",rt:"1-2 нед",tl:"Нед 1: промпты для вакансий и ролей, тест hh.ru. Нед 2: onboarding, мотивация.",pr:"Зарплаты в городе, условия работы"},
+{id:8,cat:"hr",name:"SOP и стандарты",icon:"📋",one:"Пошаговые инструкции: кухня, зал, приёмка с маркировкой, ЕГАИС, СанПиН",what:"Комплект SOP с российскими требованиями: СанПиН, ХАССП, маркировка. Каждый SOP: цель → ответственный → инструкция → чек-лист. Готов к печати.",hw:["Описываете заведение: тип, кухня, смены","SOP: открытие, приёмка (с маркировкой!), ЕГАИС, закрытие, уборка","Формат: готов к печати A4 или Notion"],stack:"Claude.ai → Docs. Claude Code → DOCX",ex:"Приёмка: 1) ВСД в Меркурии 2) Сканировать ЧЗ 3) Температура 4) Сверить с накладной 5) Сроки 6) УПД в ЭДО 7) Разложить 8) В iiko",sv:"10-20 ч разово",mn:"Защита от штрафов 30K-300K₽",cx:"low",rt:"1-2 нед",tl:"Нед 1: генерация 8-12 SOP, проверка. Нед 2: печать, обучение.",pr:"Текущие процессы, СанПиН региона"},
+{id:9,cat:"service",name:"Telegram-бот бронирование",icon:"🤖",one:"AI-ассистент 24/7: FAQ, бронь столов, напоминания, интеграция iiko",what:"Telegram-бот на Claude API с базой знаний ресторана. FAQ мгновенно, бронирования с проверкой в iiko, напоминания за 2 часа. Сложное → администратору.",hw:["Сообщение от гостя → Claude + контекст ресторана","FAQ: часы, адрес, веранда, парковка, аллергены","Бронь: дата, время, гости → iiko → подтверждение","Напоминание за 2 часа","Сложное → живой администратор"],stack:"Python + telegram-bot + Claude API + iiko API + PostgreSQL",ex:"«Столик на террасе на субботу на 4?» → «Терраса свободна: 13:00, 15:00, 19:00. Средний чек обеда 1200-1800₽.»",sv:"10+ ч/нед",mn:"Рост бронирований +50-130%",cx:"high",rt:"4-6 нед",tl:"Нед 1: база знаний. Нед 2: бот + Claude, FAQ. Нед 3: бронирование. Нед 4: тест. Нед 5-6: iiko, напоминания.",pr:"Claude API, VPS 500₽/мес, iikoCloud API"},
+{id:10,cat:"service",name:"Лояльность в Telegram",icon:"🎁",one:"Бонусы, персональные предложения по истории заказов, автопоздравления с ДР",what:"Расширение бота: регистрация, виртуальная карта, бонусы, персональные предложения от Claude, автопоздравления, бесплатные push вместо SMS.",hw:["QR на столе → Telegram → регистрация (имя, телефон, ДР)","Кассир начисляет бонусы","Списание (1 бонус = 1₽)","Claude генерирует персональные предложения","Автопоздравление с ДР: десерт в подарок","Push бесплатно (vs SMS 3-5₽)"],stack:"Python + Telegram Bot + Claude API + PostgreSQL + iiko",ex:"Анна, 7 визитов, чек 2100₽, любит пасту → «Новая паста с трюфелем — скидка 20% до воскресенья 🍝»",sv:"LTV +20-30%",mn:"Удержание в 5-25x дешевле привлечения",cx:"high",rt:"4-6 нед",tl:"Нед 1-2: дизайн программы, бот. Нед 3: бонусы, БД. Нед 4: Claude. Нед 5-6: тест, QR на столы.",pr:"Telegram-бот #9, правила программы"},
+{id:11,cat:"compliance",name:"Помощник ЕГАИС/Меркурий/ЧЗ",icon:"🛡️",one:"Чек-листы, календарь дедлайнов, шаблоны, алерты об изменениях в регуляции",what:"Библиотека шаблонов для 3 госсистем + мониторинг: Claude раз в неделю проверяет сайты регуляторов → алерт в Telegram.",hw:["Библиотека: чек-лист приёмки, ЕГАИС инструкция, журнал температуры","Календарь дедлайнов маркировки","Скрипт мониторинга fsrar.su, честныйзнак.рф","Алерт: summary + действия → Telegram"],stack:"Claude.ai + Claude Code + Python + Telegram Bot",ex:"«⚠️ С 1 сентября разрешительный режим на ветпрепараты. Обновите Локальный модуль до 01.09.»",sv:"Защита от штрафов",mn:"50K-300K₽ штрафы, приостановка",cx:"medium",rt:"2-3 нед",tl:"Нед 1: шаблоны, календарь. Нед 2: мониторинг. Нед 3: Telegram алерты.",pr:"Категории товаров, поставщики"},
+{id:12,cat:"compliance",name:"Подготовка к проверкам",icon:"✅",one:"Пакет по СанПиН: производственный контроль, журналы, самопроверка 50+ пунктов",what:"Полный комплект: программа производственного контроля, журналы, инструкции, чек-лист 50+ пунктов. Раз в месяц самопроверка.",hw:["Программа производственного контроля","Журналы: температура, уборка, дезинфекция, медосмотры","Инструкции: гигиена, аллергены, отравление","Чек-лист 50+ пунктов → раз в месяц","План устранения нарушений"],stack:"Claude.ai → Docs/Word",ex:"☐ Холодильник 0-4°C ☐ Журнал генуборки ☐ Медкнижки ☐ Маркировка полуфабрикатов ☐ Доски промаркированы",sv:"Критически важно",mn:"Штрафы 30K-300K₽, закрытие",cx:"low",rt:"1-2 нед",tl:"Нед 1: генерация документов, проверка. Нед 2: печать, самопроверка, обучение.",pr:"Тип заведения, площадь, места"},
+{id:13,cat:"analytics",name:"Дашборд KPI",icon:"📈",one:"Визуальный дашборд из iiko: выручка, food cost%, labor%, средний чек",what:"React-приложение из данных POS: все KPI на одном экране. Алерты при отклонениях.",hw:["Данные из iiko → Google Sheets","Визуализация: выручка, food cost%, labor%","Средний чек, рейтинг блюд","Сравнение неделя к неделе","Алерты: food cost >35%, labor >30%"],stack:"Claude Code → React + Recharts + Sheets/iiko API + Vercel",ex:"Выручка пн −18%. Food cost 34% (алерт!). Топ: бургер 87 порций. Маржа лидер: карбонара 72%.",sv:"Стратегическая",mn:"Data-driven vs интуиция",cx:"high",rt:"4-8 нед",tl:"Нед 1-2: KPI, экспорт. Нед 3-4: React дашборд. Нед 5-6: тест, алерты. Нед 7-8: доработка, деплой.",pr:"iiko Cloud API или экспорт отчётов"},
+{id:14,cat:"analytics",name:"Инженерия меню",icon:"🍽️",one:"Матрица Stars/Dogs: убрать, продвинуть, поднять цену, заменить ингредиент",what:"Соединяет продажи из POS + food cost: матрица «популярность × маржа». Claude даёт рекомендации по каждому блюду.",hw:["Из iiko: блюдо → продажи → выручка","Из калькулятора #4: food cost → маржа","Матрица Stars/Plowhorses/Puzzles/Dogs","Рекомендации по каждой категории","Замены подорожавших ингредиентов"],stack:"Claude Code + Python + iiko + food cost",ex:"48 позиций: 12 Stars, 8 Plowhorses, 10 Puzzles, 18 Dogs. Убрать 10 Dogs → −15% закупок.",sv:"3-8% маржи",mn:"90-240K ₽/мес при 3 млн выручки",cx:"medium",rt:"2-4 нед",tl:"Нед 1: экспорт продаж. Нед 2: скрипт матрицы. Нед 3: рекомендации + шеф. Нед 4: внедрение.",pr:"Калькулятор #4, данные продаж 1-3 мес"},
+{id:15,cat:"analytics",name:"Прогноз спроса",icon:"🔮",one:"ML-прогноз: история + погода + каникулы → план закупок по ингредиентам",what:"Python: история продаж + погода + праздники → прогноз на неделю → потребность в ингредиентах − остатки = план закупок → Telegram.",hw:["Из iiko: продажи по дням за 6-12 мес","Погода API, праздники, каникулы","Модель Prophet прогнозирует спрос","Прогноз × рецептура = потребность","Потребность − остаток = план закупок","Список по поставщикам → Telegram"],stack:"Claude Code + Python + Prophet + OpenWeather + iiko",ex:"Потепление +18°C → салаты +25%, напитки +40%, супы −15%. Закупки: +3кг руколы, +5кг помидоров.",sv:"Отходы −15-25%",mn:"$10-50K/год",cx:"high",rt:"6-10 нед",tl:"Нед 1-2: данные iiko. Нед 3-4: модель. Нед 5-6: погода + календарь. Нед 7-8: рецептуры + склад. Нед 9-10: тест, Telegram.",pr:"iiko 6+ мес, калькулятор #4, остатки"},
+];
+
+const CL={marketing:"Маркетинг",finance:"Финансы",hr:"Персонал",service:"Сервис",compliance:"Комплаенс",analytics:"Аналитика"};
+const CC={marketing:"#5B5FC7",finance:"#30D158",hr:"#FF9F0A",service:"#5B5FC7",compliance:"#FF453A",analytics:"#64D2FF"};
+const CXL={low:"Простая",medium:"Средняя",high:"Сложная"};
+const CXC={low:"#30D158",medium:"#FF9F0A",high:"#FF453A"};
+const PIE_C=["#5B5FC7","#30D158","#FF9F0A","#BF5AF2","#FF453A","#64D2FF"];
+
+const S=["overview","painpoints","tools","roi","roadmap"];
+const SL={overview:"Обзор рынка",painpoints:"Проблемы",tools:"Инструменты",roi:"ROI",roadmap:"Дорожная карта"};
+
+/* ── COMPONENTS ── */
+const Badge=({val,good})=><span style={{fontSize:11,fontWeight:600,color:good?"#30D158":"#FF453A",background:good?"#30D15818":"#FF453A18",padding:"2px 8px",borderRadius:6,display:"inline-flex",alignItems:"center",gap:3}}>{good?"↗":"↘"} {val}</span>;
+
+const DarkCard=({children,span,style:s,...p})=><div style={{background:"#1c1c1e",borderRadius:20,padding:24,color:"#fff",gridColumn:span?`span ${span}`:undefined,...s}} {...p}>{children}</div>;
+const BlueCard=({children,span,style:s,...p})=><div style={{background:"#5B5FC7",borderRadius:20,padding:24,color:"#fff",gridColumn:span?`span ${span}`:undefined,...s}} {...p}>{children}</div>;
+const CardLabel=({children,icon})=><div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>{icon&&<span style={{background:"#5B5FC720",borderRadius:6,padding:"3px 6px",fontSize:12}}>📊</span>}<span style={{fontSize:13,fontWeight:600,color:"#ffffffaa",letterSpacing:.3}}>{children}</span></div>;
+const BigNum=({children,unit})=><div style={{display:"flex",alignItems:"baseline",gap:6}}>"<span className="bignum" style={{fontWeight:700,letterSpacing:-1,fontFamily:"'SF Pro Display',system-ui,sans-serif"}}>{children}</span>{unit&&<span style={{fontSize:14,color:"#ffffff80"}}>{unit}</span>}</div>;
+
+function App(){
+  const[sec,setSec]=React.useState("overview");
+  const[cat,setCat]=React.useState("all");
+  const[op,setOp]=React.useState(null);
+  const ft=cat==="all"?tools:tools.filter(t=>t.cat===cat);
+
+  const ttStyle={background:"#1c1c1e",border:"none",borderRadius:12,color:"#fff",fontSize:12,boxShadow:"0 8px 32px rgba(0,0,0,.3)"};
+
+  return(
+    <div style={{fontFamily:"'SF Pro Display',-apple-system,'Helvetica Neue',sans-serif",background:"#f2f2f7",minHeight:"100vh",color:"#1c1c1e"}}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        *{box-sizing:border-box;margin:0}
+        .nv{padding:12px 20px;border:none;cursor:pointer;font:600 12px/1 'Inter',sans-serif;letter-spacing:.3px;transition:all .25s;background:transparent;color:#8e8e93;border-radius:10px;white-space:nowrap}
+        .nv:hover{color:#1c1c1e;background:#e5e5ea}
+        .nv.a{color:#fff;background:#1c1c1e}
+        .fb{padding:7px 16px;border:1.5px solid #d1d1d6;background:#fff;cursor:pointer;font:500 12px 'Inter',sans-serif;transition:all .2s;color:#8e8e93;border-radius:20px;white-space:nowrap}
+        .fb:hover{border-color:#8e8e93;color:#1c1c1e}
+        .fb.a{background:#1c1c1e;color:#fff;border-color:#1c1c1e}
+        .tcard{background:#fff;border-radius:16px;transition:all .25s;cursor:pointer;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+        .tcard:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-1px)}
+        .topen{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1)}
+        .dblk{background:#f2f2f7;border-radius:12px;padding:16px;margin-bottom:10px}
+        .stp{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:8px;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+        .recharts-tooltip-wrapper{filter:none!important}
+        .tool-oneliner{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+        .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .g21{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+        .g211{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+        .hdr{padding:28px 40px 16px}
+        .cnt{padding:24px 40px 60px}
+        .navscroll{display:flex;gap:6px;background:#f2f2f7;border-radius:12px;padding:4px;width:fit-content}
+        .tool-head{padding:18px 24px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+        .tool-meta{display:flex;gap:24px;align-items:center;flex-shrink:0;margin-left:20px}
+        .tool-meta-item{text-align:right}
+        .tool-body{padding:0 24px 24px}
+        .road-items{border-top:1px solid #3a3a3c;padding:16px 24px;display:grid;grid-template-columns:1fr 1fr;gap:6px 24px}
+        .road-head{padding:20px 24px;display:flex;justify-content:space-between;align-items:center}
+        .bignum{font-size:36px}
+        .h1t{font-size:32px}
+        .final-t{font-size:24px}
+        @media(max-width:900px){
+          .g4{grid-template-columns:repeat(2,1fr)}
+          .g211{grid-template-columns:1fr}
+          .g21{grid-template-columns:1fr}
+          .road-items{grid-template-columns:1fr}
+          .road-head{flex-direction:column;align-items:flex-start;gap:12px}
+        }
+        @media(max-width:640px){
+          .tool-oneliner{font-size:12px!important;white-space:normal!important;overflow:visible!important}
+          .hdr{padding:20px 16px 12px}
+          .cnt{padding:16px 16px 40px}
+          .g4{grid-template-columns:1fr 1fr}
+          .g2{grid-template-columns:1fr}
+          .g211{grid-template-columns:1fr}
+          .g21{grid-template-columns:1fr}
+          .navscroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+          .navscroll::-webkit-scrollbar{display:none}
+          .nv{padding:10px 14px;font-size:11px}
+          .tool-head{padding:14px 16px;flex-direction:column;align-items:flex-start;gap:12px}
+          .tool-meta{margin-left:0;gap:16px;width:100%;justify-content:flex-start}
+          .tool-body{padding:0 16px 16px}
+          .dblk{padding:12px}
+          .bignum{font-size:28px}
+          .h1t{font-size:24px}
+          .final-t{font-size:18px}
+          .road-items{padding:12px 16px;grid-template-columns:1fr}
+          .road-head{padding:16px;flex-direction:column;align-items:flex-start;gap:10px}
+        }
+      `}</style>
+
+      {/* HEADER */}
+      <div style={{background:"#fff",boxShadow:"0 1px 0 #e5e5ea"}} className="hdr">
+        <div style={{maxWidth:1200,margin:"0 auto"}}>
+          <p style={{fontSize:13,fontWeight:600,color:"#5B5FC7",marginBottom:6,letterSpacing:.5}}>Исследование v3.0</p>
+          <h1 className="h1t" style={{fontWeight:800,letterSpacing:-.8,marginBottom:4}}>Автоматизация ресторанов</h1>
+          <p style={{fontSize:15,color:"#8e8e93",marginBottom:20}}>15 AI-инструментов для российского общепита с реалистичными сроками</p>
+          <div className="navscroll">
+            {S.map(s=><button key={s} className={`nv ${sec===s?"a":""}`} onClick={()=>setSec(s)}>{SL[s]}</button>)}
+          </div>
+        </div>
+      </div>
+
+      <div style={{maxWidth:1200,margin:"0 auto"}} className="cnt">
+
+        {/* ═══ OVERVIEW ═══ */}
+        {sec==="overview"&&<div>
+          {/* KPI Bento */}
+          <div className="g4" style={{marginBottom:12}}>
+            <DarkCard>
+              <CardLabel>Оборот общепита 2025</CardLabel>
+              <BigNum unit="трлн ₽">4.29</BigNum>
+              <div style={{marginTop:8}}><Badge val="+21% к 2024" good/></div>
+            </DarkCard>
+            <DarkCard>
+              <CardLabel>Средний чек</CardLabel>
+              <BigNum unit="₽">1 896</BigNum>
+              <div style={{marginTop:8}}><Badge val="+11.4%" good/></div>
+            </DarkCard>
+            <DarkCard>
+              <CardLabel>Точки общепита</CardLabel>
+              <BigNum unit="тыс.">115</BigNum>
+              <div style={{marginTop:8}}><Badge val="−3.1% за год"/></div>
+            </DarkCard>
+            <DarkCard>
+              <CardLabel>Зарплата HoReCa</CardLabel>
+              <BigNum unit="тыс. ₽">83.4</BigNum>
+              <div style={{marginTop:8}}><Badge val="+47%" good/></div>
+            </DarkCard>
+          </div>
+
+          <div className="g211" style={{marginBottom:12}}>
+            <DarkCard span={1}>
+              <CardLabel>Оборот общепита РФ, трлн ₽</CardLabel>
+              <ResponsiveContainer width="100%" height={200}>
+                <AreaChart data={mkt}><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#5B5FC7" stopOpacity={.4}/><stop offset="100%" stopColor="#5B5FC7" stopOpacity={0}/></linearGradient></defs><XAxis dataKey="y" tick={{fontSize:11,fill:"#ffffff60"}} axisLine={false} tickLine={false}/><YAxis tick={{fontSize:11,fill:"#ffffff60"}} axisLine={false} tickLine={false}/><Tooltip contentStyle={ttStyle}/><Area type="monotone" dataKey="v" stroke="#5B5FC7" strokeWidth={2.5} fill="url(#ag)" dot={{r:3,fill:"#5B5FC7",stroke:"#1c1c1e",strokeWidth:2}}/></AreaChart>
+              </ResponsiveContainer>
+            </DarkCard>
+            <DarkCard>
+              <CardLabel>Текучка</CardLabel>
+              <BigNum>80-100<span style={{fontSize:20}}>%</span></BigNum>
+              <p style={{fontSize:12,color:"#ffffff60",marginTop:8}}>в год. Коллектив меняется полностью</p>
+            </DarkCard>
+            <DarkCard>
+              <CardLabel>Безработица РФ</CardLabel>
+              <BigNum>2.9<span style={{fontSize:20}}>%</span></BigNum>
+              <p style={{fontSize:12,color:"#ffffff60",marginTop:8}}>исторический минимум</p>
+            </DarkCard>
+          </div>
+
+          <div className="g2">
+            <DarkCard>
+              <CardLabel>Зарплаты HoReCa Москва, тыс. ₽/мес</CardLabel>
+              <ResponsiveContainer width="100%" height={200}>
+                <BarChart data={sal} barGap={3}><XAxis dataKey="r" tick={{fontSize:10,fill:"#ffffff60"}} axisLine={false} tickLine={false}/><YAxis tick={{fontSize:10,fill:"#ffffff60"}} axisLine={false} tickLine={false}/><Tooltip contentStyle={ttStyle}/><Bar dataKey="p" fill="#3a3a3c" radius={[4,4,0,0]} name="2024"/><Bar dataKey="s" fill="#5B5FC7" radius={[4,4,0,0]} name="2025"/></BarChart>
+              </ResponsiveContainer>
+            </DarkCard>
+            <DarkCard>
+              <CardLabel>Лимит УСН без НДС, млн ₽</CardLabel>
+              <ResponsiveContainer width="100%" height={200}>
+                <BarChart data={tax}><XAxis dataKey="y" tick={{fontSize:11,fill:"#ffffff60"}} axisLine={false} tickLine={false}/><YAxis tick={{fontSize:11,fill:"#ffffff60"}} axisLine={false} tickLine={false}/><Tooltip contentStyle={ttStyle}/><Bar dataKey="l" radius={[6,6,0,0]}>{tax.map((e,i)=><Cell key={i} fill={i===0?"#5B5FC7":"#FF453A"}/>)}</Bar></BarChart>
+              </ResponsiveContainer>
+              <p style={{fontSize:11,color:"#ffffff50",marginTop:4}}>С 60 млн → 10 млн к 2028</p>
+            </DarkCard>
+          </div>
+        </div>}
+
+        {/* ═══ PAIN POINTS ═══ */}
+        {sec==="painpoints"&&<div>
+          <div className="g2" style={{marginBottom:12}}>
+            <DarkCard>
+              <CardLabel>Индекс остроты проблем</CardLabel>
+              <ResponsiveContainer width="100%" height={280}><RadarChart data={radar}><PolarGrid stroke="#3a3a3c"/><PolarAngleAxis dataKey="s" tick={{fontSize:12,fill:"#ffffffaa"}}/><PolarRadiusAxis tick={{fontSize:10,fill:"#ffffff40"}}/><Radar dataKey="A" stroke="#5B5FC7" fill="#5B5FC7" fillOpacity={.2} strokeWidth={2}/></RadarChart></ResponsiveContainer>
+            </DarkCard>
+            <div style={{display:"flex",flexDirection:"column",gap:12}}>
+              {[{s:"ЕГАИС",d:"Порционный учёт каждого бокала",c:"#BF5AF2"},{s:"Меркурий",d:"ВСД на мясо, молоко, рыбу",c:"#30D158"},{s:"Честный знак",d:"Маркировка молочки, воды, пива",c:"#5B5FC7"}].map((s,i)=>
+                <DarkCard key={i} style={{flex:1,display:"flex",alignItems:"center",gap:16}}>
+                  <div style={{width:4,height:40,borderRadius:2,background:s.c,flexShrink:0}}/>
+                  <div><div style={{fontWeight:700,fontSize:15}}>{s.s}</div><div style={{fontSize:12,color:"#ffffffaa",marginTop:2}}>{s.d}</div></div>
+                </DarkCard>
+              )}
+              <BlueCard style={{padding:16,textAlign:"center"}}>
+                <span style={{fontSize:13,fontWeight:600}}>⚠️ Пиво → ЕГАИС + ЧЗ одновременно</span>
+              </BlueCard>
+            </div>
+          </div>
+          <div className="g2" style={{gap:10}}>
+            {[{n:1,t:"Кадровый голод",s:"2 резюме/вакансию",a:"HR, SOP",l:95},{n:2,t:"Рост издержек",s:"Еда+труд=70%",a:"Food cost",l:88},{n:3,t:"Налоговая реформа",s:"НДС 22%, лимит↓",a:"Налог. ассистент",l:82},{n:4,t:"Пищевые отходы",s:"4-10% закупок",a:"Прогноз",l:80},{n:5,t:"Маркетинг",s:"Привлечь в 5-25x дороже",a:"AI-контент",l:75},{n:6,t:"Отзывы",s:"Яндекс.Карты=воронка",a:"Автоответчик",l:78},{n:7,t:"Комплаенс",s:"3 госсистемы",a:"Мониторинг",l:78},{n:8,t:"Монополия доставки",s:"28-35% комиссия",a:"Свои каналы",l:70}].map((p,i)=>
+              <DarkCard key={i} style={{padding:16,display:"flex",gap:14}}>
+                <div style={{fontFamily:"'Inter'",fontSize:22,fontWeight:800,color:"#5B5FC7",minWidth:32}}>{String(p.n).padStart(2,"0")}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontWeight:700,fontSize:14}}>{p.t}</div>
+                  <div style={{fontSize:11,color:"#ffffff80",marginTop:2}}>{p.s}</div>
+                  <div style={{fontSize:11,color:"#30D158",marginTop:6}}>🤖 {p.a}</div>
+                  <div style={{marginTop:8,height:3,background:"#3a3a3c",borderRadius:2}}><div style={{height:3,background:"#5B5FC7",borderRadius:2,width:`${p.l}%`,transition:"width .5s"}}/></div>
+                </div>
+              </DarkCard>
+            )}
+          </div>
+        </div>}
+
+        {/* ═══ TOOLS ═══ */}
+        {sec==="tools"&&<div>
+          <div style={{display:"flex",gap:8,marginBottom:20,flexWrap:"wrap"}}>
+            <button className={`fb ${cat==="all"?"a":""}`} onClick={()=>setCat("all")}>Все (15)</button>
+            {Object.entries(CL).map(([k,v])=><button key={k} className={`fb ${cat===k?"a":""}`} onClick={()=>setCat(k)} style={cat===k?{background:"#1c1c1e",borderColor:"#1c1c1e"}:{}}>{v}</button>)}
+          </div>
+          <div style={{display:"flex",flexDirection:"column",gap:10}}>
+            {ft.map(t=>{
+              const isO=op===t.id;
+              return <div key={t.id} className={isO?"topen":"tcard"}>
+                <div onClick={()=>setOp(isO?null:t.id)} className="tool-head">
+                  <div style={{display:"flex",gap:16,alignItems:"center",flex:1,minWidth:0}}>
+                    <span style={{fontSize:32,flexShrink:0}}>{t.icon}</span>
+                    <div style={{flex:1,minWidth:0}}>
+                      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4,flexWrap:"wrap"}}>
+                        <span style={{fontSize:11,fontWeight:700,color:"#8e8e93"}}>#{String(t.id).padStart(2,"0")}</span>
+                        <span style={{fontSize:10,fontWeight:600,color:CC[t.cat],background:`${CC[t.cat]}15`,padding:"2px 10px",borderRadius:8}}>{CL[t.cat]}</span>
+                        <span style={{fontSize:10,fontWeight:600,color:CXC[t.cx],background:`${CXC[t.cx]}15`,padding:"2px 10px",borderRadius:8}}>{CXL[t.cx]}</span>
+                      </div>
+                      <div style={{fontWeight:700,fontSize:16,marginBottom:2}}>{t.name}</div>
+                      <div className="tool-oneliner" style={{fontSize:13,color:"#8e8e93"}}>{t.one}</div>
+                    </div>
+                  </div>
+                  <div className="tool-meta">
+                    <div style={{textAlign:"right"}}><div style={{fontSize:10,color:"#8e8e93",textTransform:"uppercase",letterSpacing:.5}}>Срок</div><div style={{fontSize:15,fontWeight:700,color:"#5B5FC7"}}>{t.rt}</div></div>
+                    <div style={{textAlign:"right"}}><div style={{fontSize:10,color:"#8e8e93",textTransform:"uppercase",letterSpacing:.5}}>Экономия</div><div style={{fontSize:14,fontWeight:700,color:"#30D158"}}>{t.sv}</div></div>
+                    <div style={{fontSize:16,color:"#8e8e93",transition:"transform .2s",transform:isO?"rotate(180deg)":"rotate(0)"}}>▾</div>
+                  </div>
+                </div>
+                {isO&&<div className="tool-body" style={{borderTop:"1px solid #e5e5ea"}}>
+                  <div style={{paddingTop:16}}>
+                    <div className="dblk"><div style={{fontSize:11,fontWeight:700,color:"#5B5FC7",textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>Что это такое</div><p style={{fontSize:14,color:"#48484a",lineHeight:1.7}}>{t.what}</p></div>
+                    <div className="dblk"><div style={{fontSize:11,fontWeight:700,color:"#5B5FC7",textTransform:"uppercase",letterSpacing:.8,marginBottom:10}}>Как работает</div>{t.hw.map((s,i)=><div key={i} style={{display:"flex",gap:10,alignItems:"flex-start",marginBottom:8}}><span className="stp" style={{background:CC[t.cat]}}>{i+1}</span><span style={{fontSize:13,color:"#48484a",lineHeight:1.5}}>{s}</span></div>)}</div>
+                    <div className="g2" style={{gap:10}}>
+                      <div className="dblk"><div style={{fontSize:11,fontWeight:700,color:"#8e8e93",textTransform:"uppercase",letterSpacing:.8,marginBottom:6}}>Технический стек</div><p style={{fontSize:12,color:"#636366",fontFamily:"'SF Mono','JetBrains Mono',monospace"}}>{t.stack}</p></div>
+                      <div className="dblk"><div style={{fontSize:11,fontWeight:700,color:"#FF9F0A",textTransform:"uppercase",letterSpacing:.8,marginBottom:6}}>Что нужно заранее</div><p style={{fontSize:12,color:"#636366"}}>{t.pr}</p></div>
+                    </div>
+                    <div className="dblk" style={{background:"#5B5FC710",border:"1px solid #5B5FC730"}}><div style={{fontSize:11,fontWeight:700,color:"#5B5FC7",textTransform:"uppercase",letterSpacing:.8,marginBottom:6}}>Пример</div><p style={{fontSize:13,color:"#48484a",lineHeight:1.6,fontStyle:"italic"}}>{t.ex}</p></div>
+                    <div style={{background:"#1c1c1e",borderRadius:12,padding:16,marginBottom:10}}><div style={{fontSize:11,fontWeight:700,color:"#FF9F0A",textTransform:"uppercase",letterSpacing:.8,marginBottom:6}}>⏱ Реалистичный план — {t.rt}</div><p style={{fontSize:13,color:"#ffffffcc",lineHeight:1.6}}>{t.tl}</p></div>
+                    <div className="g2" style={{gap:10}}>
+                      <div style={{background:"#30D15810",borderRadius:12,padding:16}}><div style={{fontSize:11,fontWeight:700,color:"#30D158",textTransform:"uppercase",letterSpacing:.8,marginBottom:4}}>Экономия</div><div style={{fontSize:18,fontWeight:800,color:"#30D158"}}>{t.sv}</div><div style={{fontSize:12,color:"#48484a",marginTop:4}}>{t.mn}</div></div>
+                      <div style={{background:"#f2f2f7",borderRadius:12,padding:16}}><div style={{fontSize:11,fontWeight:700,color:"#8e8e93",textTransform:"uppercase",letterSpacing:.8,marginBottom:4}}>Сложность</div><div style={{display:"flex",alignItems:"center",gap:8,marginTop:4}}><span style={{background:CXC[t.cx],color:"#fff",padding:"4px 14px",fontSize:12,fontWeight:700,borderRadius:8}}>{CXL[t.cx]}</span><span style={{fontSize:13,color:"#636366",fontWeight:600}}>{t.rt}</span></div></div>
+                    </div>
+                  </div>
+                </div>}
+              </div>;
+            })}
+          </div>
+        </div>}
+
+        {/* ═══ ROI ═══ */}
+        {sec==="roi"&&<div>
+          <div className="g21" style={{marginBottom:12}}>
+            <DarkCard>
+              <CardLabel>Инвестиция vs Экономия, тыс. ₽/год</CardLabel>
+              <ResponsiveContainer width="100%" height={260}><BarChart data={roiD} barGap={4}><XAxis dataKey="n" tick={{fontSize:10,fill:"#ffffff60"}} axisLine={false} tickLine={false}/><YAxis tick={{fontSize:10,fill:"#ffffff60"}} axisLine={false} tickLine={false}/><Tooltip contentStyle={ttStyle}/><Legend wrapperStyle={{fontSize:11,color:"#fff"}}/><Bar dataKey="i" fill="#FF453A" radius={[4,4,0,0]} name="Инвестиция"/><Bar dataKey="s" fill="#30D158" radius={[4,4,0,0]} name="Экономия"/></BarChart></ResponsiveContainer>
+            </DarkCard>
+            <DarkCard>
+              <CardLabel>По категориям</CardLabel>
+              <ResponsiveContainer width="100%" height={260}><PieChart><Pie data={[{n:"Маркетинг",v:30},{n:"Финансы",v:25},{n:"HR",v:15},{n:"Сервис",v:15},{n:"Комплаенс",v:8},{n:"Аналитика",v:7}]} cx="50%" cy="50%" innerRadius={50} outerRadius={90} paddingAngle={3} dataKey="v" nameKey="n">{PIE_C.map((c,i)=><Cell key={i} fill={c}/>)}</Pie><Tooltip contentStyle={ttStyle}/></PieChart></ResponsiveContainer>
+            </DarkCard>
+          </div>
+          <div className="g4">
+            {[{l:"Стоимость",v:"4-10K",u:"₽/мес"},{l:"Экономия/год",v:"2-5",u:"млн ₽"},{l:"Окупаемость",v:"1-4",u:"недели"},{l:"ROI",v:"50-400",u:"x"}].map((r,i)=>
+              <DarkCard key={i} style={{textAlign:"center"}}>
+                <div style={{fontSize:11,color:"#ffffff60",textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>{r.l}</div>
+                <BigNum unit={r.u}>{r.v}</BigNum>
+              </DarkCard>
+            )}
+          </div>
+        </div>}
+
+        {/* ═══ ROADMAP ═══ */}
+        {sec==="roadmap"&&<div>
+          {[
+            {ph:1,t:"Quick Wins",tm:"Недели 1-2",cost:"Бесплатно",c:"#30D158",refs:"#3, #5, #7, #8, #12",items:["Описания блюд — 3-5 дней","Налоговый анализ — 3-5 дней","Вакансии hh.ru — 3-5 дней","SOP и чек-листы — 1-2 нед","Документы к проверке — 1-2 нед"]},
+            {ph:2,t:"Автоматизация",tm:"Недели 3-8",cost:"2-4K ₽/мес",c:"#5B5FC7",refs:"#1, #2, #11",items:["AI-контент соцсетей — 2-3 нед","Автоответчик отзывов — 2-4 нед","Помощник ЕГАИС/ЧЗ — 2-3 нед"]},
+            {ph:3,t:"Финансы и данные",tm:"Недели 8-16",cost:"4-10K ₽/мес",c:"#BF5AF2",refs:"#4, #6, #14",items:["Калькулятор food cost — 2-4 нед","Инвойсы для 1С — 3-5 нед","Инженерия меню — 2-4 нед"]},
+            {ph:4,t:"Полная экосистема",tm:"Недели 16-28",cost:"Масштабируемо",c:"#FF9F0A",refs:"#9, #10, #13, #15",items:["Telegram-бот — 4-6 нед","Лояльность — 4-6 нед","Дашборд KPI — 4-8 нед","Прогноз спроса — 6-10 нед"]},
+          ].map((p,i)=>
+            <DarkCard key={i} style={{marginBottom:12,padding:0,overflow:"hidden"}}>
+              <div className="road-head">
+                <div style={{display:"flex",gap:16,alignItems:"center"}}>
+                  <div style={{fontSize:36,fontWeight:800,color:p.c,fontFamily:"'Inter'"}}>{String(p.ph).padStart(2,"0")}</div>
+                  <div><div style={{fontWeight:700,fontSize:18}}>{p.t}</div><div style={{fontSize:12,color:"#ffffff80"}}>{p.tm} · Решения {p.refs}</div></div>
+                </div>
+                <span style={{background:p.c,color:p.c==="#FF9F0A"?"#1c1c1e":"#fff",padding:"6px 18px",borderRadius:10,fontSize:13,fontWeight:700}}>{p.cost}</span>
+              </div>
+              <div className="road-items">
+                {p.items.map((it,j)=><div key={j} style={{fontSize:13,color:"#ffffffcc",padding:"4px 0",display:"flex",gap:8}}>
+                  <span style={{color:p.c,fontWeight:700}}>→</span>{it}
+                </div>)}
+              </div>
+            </DarkCard>
+          )}
+          <BlueCard style={{textAlign:"center",padding:32,marginTop:8}}>
+            <div style={{fontSize:11,fontWeight:600,color:"#ffffffaa",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Общий таймлайн</div>
+            <div className="final-t" style={{fontWeight:800,marginBottom:8}}>От первых результатов до полной экосистемы — 6-7 месяцев</div>
+            <div style={{fontSize:14,color:"#ffffffcc"}}>Quick wins уже на первой неделе. Каждая фаза приносит результат самостоятельно.</div>
+          </BlueCard>
+        </div>}
+
+      </div>
+    </div>
+  );
+}
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
