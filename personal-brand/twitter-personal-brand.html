@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twitter/X Personal Brand Strategy — Lyubov Skripeleva</title>
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #13161e;
+    --surface2: #1a1e2b;
+    --border: #242838;
+    --accent: #1d9bf0;
+    --accent2: #7856ff;
+    --accent3: #00c896;
+    --accent4: #f7b155;
+    --danger: #f4545c;
+    --text: #e8ecf4;
+    --text2: #8b93a8;
+    --text3: #4e5670;
+    --green: #00c896;
+    --yellow: #f7b155;
+    --red: #f4545c;
+    --purple: #9b7de8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .header {
+    background: linear-gradient(135deg, #070a14 0%, #0d1025 50%, #07101f 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -5%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(29,155,240,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(29,155,240,0.12);
+    border: 1px solid rgba(29,155,240,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #fff 0%, #7ab4e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .header p { color: var(--text2); font-size: 16px; }
+  .meta-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .meta-item span.dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 40px 48px; }
+  .section { margin-bottom: 48px; }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title .icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .icon-blue { background: rgba(29,155,240,0.15); }
+  .icon-green { background: rgba(0,200,150,0.15); }
+  .icon-purple { background: rgba(120,86,255,0.15); }
+  .icon-yellow { background: rgba(247,177,85,0.15); }
+  .icon-red { background: rgba(244,84,92,0.15); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 8px; }
+  .card-value { font-size: 28px; font-weight: 800; color: var(--text); }
+  .card-desc { font-size: 13px; color: var(--text2); margin-top: 4px; }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .tag-green { background: rgba(0,200,150,0.12); color: var(--green); border: 1px solid rgba(0,200,150,0.25); }
+  .tag-yellow { background: rgba(247,177,85,0.12); color: var(--yellow); border: 1px solid rgba(247,177,85,0.25); }
+  .tag-red { background: rgba(244,84,92,0.12); color: var(--red); border: 1px solid rgba(244,84,92,0.25); }
+  .tag-blue { background: rgba(29,155,240,0.12); color: var(--accent); border: 1px solid rgba(29,155,240,0.25); }
+  .tag-purple { background: rgba(155,125,232,0.12); color: var(--purple); border: 1px solid rgba(155,125,232,0.25); }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    background: var(--surface2);
+    color: var(--text2);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text);
+    vertical-align: top;
+  }
+  tbody tr:hover td { background: rgba(255,255,255,0.02); }
+  tbody tr:last-child td { border-bottom: none; }
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+
+  /* Profile Setup */
+  .profile-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .profile-header-mock {
+    height: 120px;
+    background: linear-gradient(135deg, #0d1f3c 0%, #1a0d3c 50%, #0a1a30 100%);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px 24px;
+  }
+  .mock-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    border: 4px solid var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    font-weight: 900;
+    color: white;
+    position: absolute;
+    bottom: -32px;
+    left: 24px;
+  }
+  .profile-body { padding: 48px 24px 24px; }
+  .profile-name { font-size: 22px; font-weight: 800; margin-bottom: 2px; }
+  .profile-handle { font-size: 14px; color: var(--text3); margin-bottom: 12px; }
+  .profile-bio { font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 16px; }
+  .profile-meta { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--text3); }
+
+  /* Tweet mockups */
+  .tweet-mock {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+  }
+  .tweet-mock::before {
+    content: '𝕏';
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 18px;
+    color: var(--text3);
+    font-weight: 900;
+  }
+  .tweet-author { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+  .tweet-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: white; flex-shrink: 0; }
+  .tweet-name { font-weight: 700; font-size: 14px; }
+  .tweet-handle { font-size: 13px; color: var(--text3); }
+  .tweet-body { font-size: 14px; line-height: 1.7; color: var(--text2); }
+  .tweet-body strong { color: var(--text); }
+  .tweet-stats { display: flex; gap: 20px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text3); }
+  .tweet-stat { display: flex; align-items: center; gap: 6px; }
+
+  /* Signal rows */
+  .signal-row { display: flex; align-items: flex-start; gap: 16px; padding: 16px; border-bottom: 1px solid var(--border); }
+  .signal-row:last-child { border-bottom: none; }
+  .signal-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .signal-content h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .signal-content p { font-size: 13px; color: var(--text2); }
+
+  /* Content calendar */
+  .week-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .week-header {
+    background: var(--surface2);
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .week-row {
+    display: grid;
+    grid-template-columns: 90px 100px 1fr 120px;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+    font-size: 13px;
+  }
+  .week-row:last-child { border-bottom: none; }
+  .week-day { font-weight: 700; color: var(--text2); }
+  .week-format { }
+  .week-content { color: var(--text2); line-height: 1.5; }
+  .week-type { font-size: 12px; color: var(--text3); }
+
+  /* Competitor */
+  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .comp-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  .comp-handle { font-size: 13px; color: var(--accent); margin-bottom: 8px; }
+  .comp-role { font-size: 12px; color: var(--text3); margin-bottom: 12px; }
+  .comp-stats { display: flex; gap: 16px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .comp-stat-num { font-size: 18px; font-weight: 800; color: var(--accent); }
+  .comp-stat-label { font-size: 11px; color: var(--text3); }
+
+  /* Hack cards */
+  .hack-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .hack-num { font-size: 36px; font-weight: 900; color: var(--border); line-height: 1; margin-bottom: 8px; }
+  .hack-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .hack-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .hack-result { margin-top: 12px; font-size: 12px; color: var(--green); font-weight: 600; }
+
+  /* Do/dont */
+  .dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .do-box { background: rgba(0,200,150,0.05); border: 1px solid rgba(0,200,150,0.2); border-radius: 12px; padding: 20px; }
+  .dont-box { background: rgba(244,84,92,0.05); border: 1px solid rgba(244,84,92,0.2); border-radius: 12px; padding: 20px; }
+  .do-box h4 { color: var(--green); margin-bottom: 14px; font-size: 14px; }
+  .dont-box h4 { color: var(--red); margin-bottom: 14px; font-size: 14px; }
+  .do-list, .dont-list { list-style: none; }
+  .do-list li, .dont-list li { font-size: 13px; color: var(--text2); padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; gap: 8px; align-items: flex-start; }
+  .do-list li:last-child, .dont-list li:last-child { border-bottom: none; }
+  .do-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+  .dont-list li::before { content: '✗'; color: var(--red); font-weight: 700; flex-shrink: 0; }
+
+  /* Phase roadmap */
+  .phase-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    border-top: 3px solid var(--accent);
+    position: relative;
+  }
+  .phase-card:nth-child(2) { border-top-color: var(--accent2); }
+  .phase-card:nth-child(3) { border-top-color: var(--accent3); }
+  .phase-card:nth-child(4) { border-top-color: var(--accent4); }
+  .phase-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 8px; }
+  .phase-title { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+  .phase-goal { font-size: 13px; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+  .phase-actions { font-size: 13px; color: var(--text2); }
+  .phase-actions li { padding: 4px 0; list-style: none; padding-left: 16px; position: relative; }
+  .phase-actions li::before { content: '→'; position: absolute; left: 0; color: var(--text3); }
+
+  /* Thread anatomy */
+  .thread-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .thread-tweet {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .thread-tweet:last-child { border-bottom: none; }
+  .thread-line {
+    position: absolute;
+    left: 18px;
+    top: 54px;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .thread-tweet:last-child .thread-line { display: none; }
+  .thread-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: white; flex-shrink: 0; }
+  .thread-num { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+  .thread-text { font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .thread-text strong { color: var(--text); }
+
+  /* Content type pills */
+  .content-types { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .content-type {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 140px;
+  }
+  .content-type-name { font-weight: 700; font-size: 14px; }
+  .content-type-freq { font-size: 11px; color: var(--text3); }
+  .content-type-reach { font-size: 11px; }
+
+  @media (max-width: 1024px) {
+    .container { padding: 24px; }
+    .header { padding: 24px; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .week-row { grid-template-columns: 1fr; }
+    .dodont { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">𝕏 Twitter/X Brand Strategy</div>
+  <h1>Twitter/X Personal Brand — From Zero</h1>
+  <p>Full strategy for <strong>Lyubov Skripeleva</strong> — CMO @ WiFi Map · Building Web3 & DePIN thought leadership on X in 2026</p>
+  <div class="meta-row">
+    <div class="meta-item"><span class="dot"></span> Current status: Profile empty / starting from 0</div>
+    <div class="meta-item"><span class="dot"></span> Niche: Web3 / DePIN / CMO / Marketing</div>
+    <div class="meta-item"><span class="dot"></span> Goal: 5K followers in 90 days, 20K in 12 months</div>
+    <div class="meta-item"><span class="dot"></span> Research date: March 2026</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Overview stats -->
+  <div class="grid-4" style="margin-bottom: 40px;">
+    <div class="card">
+      <div class="card-label">90-Day Target</div>
+      <div class="card-value" style="color: var(--accent)">5K</div>
+      <div class="card-desc">Followers if strategy executed consistently</div>
+    </div>
+    <div class="card">
+      <div class="card-label">12-Month Target</div>
+      <div class="card-value" style="color: var(--green)">20K+</div>
+      <div class="card-desc">Achievable for active DePIN CMO with unique POV</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Posting Frequency</div>
+      <div class="card-value">3–5×</div>
+      <div class="card-desc">Tweets/day + 2-3 threads/week</div>
+    </div>
+    <div class="card">
+      <div class="card-label">X Opportunity</div>
+      <div class="card-value" style="color: var(--yellow)">🔥 High</div>
+      <div class="card-desc">Crypto Twitter is the #1 DePIN community hub</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: Why X for Web3 -->
+  <div class="section" id="why-x">
+    <div class="section-title">
+      <div class="icon icon-blue">🌐</div>
+      Why Twitter/X is Non-Negotiable for Web3 CMO
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div style="font-size: 28px; margin-bottom: 10px;">🔑</div>
+        <div style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Crypto Twitter = Industry HQ</div>
+        <div style="font-size: 13px; color: var(--text2);">80%+ of Web3 professionals use X daily. VCs, founders, protocol leads, KOLs — all are here. It's where deals happen, narratives form, and talent gets discovered. LinkedIn is the resume; X is the actual conversation.</div>
+      </div>
+      <div class="card">
+        <div style="font-size: 28px; margin-bottom: 10px;">⚡</div>
+        <div style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">DePIN Narrative is Forming NOW</div>
+        <div style="font-size: 13px; color: var(--text2);">DePIN is the hottest infrastructure narrative in 2025-2026. Being one of the first CMO voices building in public in this category creates an insurmountable first-mover advantage. The window is open — but not forever.</div>
+      </div>
+      <div class="card">
+        <div style="font-size: 28px; margin-bottom: 10px;">🎤</div>
+        <div style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">CMO Voice = Rare on CT</div>
+        <div style="font-size: 13px; color: var(--text2);">Crypto Twitter is full of devs, traders, and VCs. The CMO/marketing perspective is genuinely underrepresented. Lyuba's operational angle — "here's how we actually market a DePIN protocol" — fills a massive content gap.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Profile Setup -->
+  <div class="section" id="profile-setup">
+    <div class="section-title">
+      <div class="icon icon-purple">🎨</div>
+      Profile Setup — Optimized from Day 1
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div style="font-size: 14px; font-weight: 700; color: var(--text2); margin-bottom: 12px;">🚫 Current State</div>
+        <div class="card" style="border-color: rgba(244,84,92,0.3);">
+          <div style="font-size: 13px; color: var(--text2); line-height: 2;">
+            <div>• No profile photo <span class="tag tag-red">Missing</span></div>
+            <div>• No bio <span class="tag tag-red">Missing</span></div>
+            <div>• No banner <span class="tag tag-red">Missing</span></div>
+            <div>• No pinned tweet <span class="tag tag-red">Missing</span></div>
+            <div>• No tweets / activity <span class="tag tag-red">Empty</span></div>
+            <div>• 0 followers <span class="tag tag-red">Start</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 14px; font-weight: 700; color: var(--text2); margin-bottom: 12px;">✅ Target State (Week 1)</div>
+        <div class="profile-section">
+          <div class="profile-header-mock">
+            <div class="mock-avatar">LS</div>
+          </div>
+          <div class="profile-body">
+            <div class="profile-name">Lyubov Skripeleva 🌐</div>
+            <div class="profile-handle">@skripeleva</div>
+            <div class="profile-bio">
+              CMO @WiFiMap — 200M+ users, DePIN, $WIFI<br>
+              Building the future of connectivity 📡<br>
+              6 years in Web3 GTM | Token launches | Growth<br>
+              New York 🗽 | Tweeting about DePIN, Web3 marketing & building in public
+            </div>
+            <div class="profile-meta">
+              <span>📍 New York, NY</span>
+              <span>🔗 wifimap.io</span>
+              <span>📅 Joined 2026</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Element</th>
+              <th>Spec</th>
+              <th>Best Practice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>@handle</strong></td>
+              <td>@skripeleva or @lyubskripeleva</td>
+              <td>Use real name — builds brand equity. Avoid crypto slang handles.</td>
+            </tr>
+            <tr>
+              <td><strong>Display Name</strong></td>
+              <td>Lyubov Skripeleva 🌐</td>
+              <td>Add globe emoji (🌐) = DePIN/connectivity signal. Can add 🏗️ for builder vibe.</td>
+            </tr>
+            <tr>
+              <td><strong>Bio</strong></td>
+              <td>CMO @WiFiMap · DePIN · Web3 GTM · Building in public · NY</td>
+              <td>First line must hook — lead with company + role. Include $WIFI for discoverability. Max 160 chars.</td>
+            </tr>
+            <tr>
+              <td><strong>Profile Photo</strong></td>
+              <td>Professional, high quality, good lighting</td>
+              <td>Same photo as LinkedIn for cross-platform recognition. Bright background preferred.</td>
+            </tr>
+            <tr>
+              <td><strong>Banner</strong></td>
+              <td>1500×500px custom</td>
+              <td>"CMO @ WiFi Map · DePIN · @WiFiMap" with brand colors. Update with major milestones.</td>
+            </tr>
+            <tr>
+              <td><strong>Pinned Tweet</strong></td>
+              <td>Best thread or intro thread</td>
+              <td>Pin your "This is who I am" intro thread first week. After first viral post — pin that instead.</td>
+            </tr>
+            <tr>
+              <td><strong>Website Link</strong></td>
+              <td>wifimap.io or LinkedIn profile</td>
+              <td>Link to LinkedIn if no personal site. Drives cross-platform growth.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: X Algorithm 2026 -->
+  <div class="section" id="x-algorithm">
+    <div class="section-title">
+      <div class="icon icon-green">⚙️</div>
+      X Algorithm 2026 — How to Win on Crypto Twitter
+    </div>
+
+    <div class="grid-2" style="margin-bottom: 24px;">
+      <div>
+        <div style="font-size: 13px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">🚀 BOOST SIGNALS</div>
+        <div class="table-wrap">
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(0,200,150,0.12)">📌</div>
+            <div class="signal-content">
+              <h4>Premium / X Blue subscription</h4>
+              <p>In 2026, X Blue (Premium) accounts get significantly higher algorithmic distribution. For a CMO building a brand, this is a non-negotiable $8/month investment. Replies from Blue accounts get boosted in For You feeds.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(0,200,150,0.12)">💬</div>
+            <div class="signal-content">
+              <h4>Reply engagement (early)</h4>
+              <p>Replies to your tweets in the first 30 minutes signal strong content. Get your early followers (transfer from LinkedIn, Telegram etc.) to reply on day 1 posts. Comments > likes > retweets in weight.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(0,200,150,0.12)">🧵</div>
+            <div class="signal-content">
+              <h4>Long threads with high dwell time</h4>
+              <p>Threads that make people click "show more" and scroll through 10+ tweets are rewarded heavily. The algorithm measures time-on-tweet (dwell time) similar to LinkedIn.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(0,200,150,0.12)">🔖</div>
+            <div class="signal-content">
+              <h4>Bookmarks (saves)</h4>
+              <p>Bookmarks are the highest-intent signal on X — stronger than likes. Content that people want to reference later (frameworks, stats, threads) gets enormous algorithmic boost. Design for saves.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(0,200,150,0.12)">🔁</div>
+            <div class="signal-content">
+              <h4>Quote tweets from big accounts</h4>
+              <p>Getting quote-tweeted by a 50K+ crypto account can bring 2,000–10,000 new impressions in hours. Build relationships with KOLs in DePIN space: engage with their content for 2-4 weeks before tweeting at them.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 13px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">🚫 PENALTY SIGNALS</div>
+        <div class="table-wrap">
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(244,84,92,0.12)">🔗</div>
+            <div class="signal-content">
+              <h4>External links in tweets</h4>
+              <p>X suppresses tweets with links to competing platforms (LinkedIn, Substack, etc.). Post text-only, add link in reply. Exception: links to X-native content (Spaces, Articles) are OK.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(244,84,92,0.12)">🤖</div>
+            <div class="signal-content">
+              <h4>Low-effort reposts / no commentary</h4>
+              <p>Just retweeting is zero-value for your brand building. Always add 1-2 sentences of your own take. Quote-tweet with opinion > pure retweet.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(244,84,92,0.12)">📢</div>
+            <div class="signal-content">
+              <h4>Shilling / obvious promotion</h4>
+              <p>Crypto Twitter has a strong "shill-dar." Promotional tweets about $WIFI or WiFi Map should be max 20% of content — and framed as insight, not marketing. CT rewards authentic builders over marketers.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(244,84,92,0.12)">🗑️</div>
+            <div class="signal-content">
+              <h4>Posting only about company news</h4>
+              <p>Corporate accounts post company news. Personal brands share perspective. Don't replicate the @WiFiMap account — be the human voice behind it with industry opinions that go beyond company updates.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(244,84,92,0.12)">😴</div>
+            <div class="signal-content">
+              <h4>Inconsistent posting</h4>
+              <p>Posting in bursts then going quiet tanks your algorithmic momentum. The X algorithm rewards daily presence. Even 1-2 tweets on "off" days is better than going dark for 3+ days.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Content Type</th>
+            <th>Avg Impressions Multiplier</th>
+            <th>Best For</th>
+            <th>Frequency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>🧵 Thread (8-15 tweets)</strong></td>
+            <td><span class="tag tag-green">5-15×</span></td>
+            <td>Deep dives, frameworks, case studies, lessons</td>
+            <td>2-3×/week</td>
+          </tr>
+          <tr>
+            <td><strong>💬 Hot take (single tweet)</strong></td>
+            <td><span class="tag tag-green">3-8×</span></td>
+            <td>Contrarian opinion, short sharp insight, question</td>
+            <td>2-3×/day</td>
+          </tr>
+          <tr>
+            <td><strong>🔁 Quote tweet with take</strong></td>
+            <td><span class="tag tag-yellow">2-4×</span></td>
+            <td>Adding perspective to industry news</td>
+            <td>1-2×/day</td>
+          </tr>
+          <tr>
+            <td><strong>🗳️ Poll</strong></td>
+            <td><span class="tag tag-yellow">2-5×</span></td>
+            <td>Community research, engagement, debate starter</td>
+            <td>2-3×/week</td>
+          </tr>
+          <tr>
+            <td><strong>🖼️ Image/infographic</strong></td>
+            <td><span class="tag tag-yellow">3-6×</span></td>
+            <td>Frameworks, stats, charts, DePIN maps</td>
+            <td>3-5×/week</td>
+          </tr>
+          <tr>
+            <td><strong>🎙️ X Spaces (hosting)</strong></td>
+            <td><span class="tag tag-green">10-30×</span></td>
+            <td>Network building, thought leadership, live debate</td>
+            <td>1×/month</td>
+          </tr>
+          <tr>
+            <td><strong>🎥 Short video (60-90s)</strong></td>
+            <td><span class="tag tag-green">4-10×</span></td>
+            <td>Quick takes, conference vlog, DePIN explainer</td>
+            <td>2-3×/week</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 4: Competitors on X -->
+  <div class="section" id="competitors">
+    <div class="section-title">
+      <div class="icon icon-purple">🔍</div>
+      Competitor Analysis — Web3 / DePIN CMOs on X (CT)
+    </div>
+
+    <div class="grid-3" style="margin-bottom: 20px;">
+      <div class="comp-card">
+        <div class="comp-name">Sandy Carter</div>
+        <div class="comp-handle">@sandy_carter</div>
+        <div class="comp-role">SVP Unstoppable Domains · Web3 advocate</div>
+        <div class="comp-stats">
+          <div class="comp-stat-item"><div class="comp-stat-num">55K+</div><div class="comp-stat-label">Followers</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">5-8×</div><div class="comp-stat-label">Per day</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">What works:</strong> Mix of Web3 news commentary + personal experience + education. Very active in replies. Consistent engagement with big accounts.<br><br>
+          <strong style="color: var(--text)">Gap for Lyuba:</strong> Sandy covers Web3 broadly — Lyuba can own the DePIN GTM angle specifically.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-name">Tascha (Punyaneramitdee)</div>
+        <div class="comp-handle">@TaschaLabs</div>
+        <div class="comp-role">Crypto economist / ex-CMO Alpha Finance</div>
+        <div class="comp-stats">
+          <div class="comp-stat-item"><div class="comp-stat-num">250K+</div><div class="comp-stat-label">Followers</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">3-4×</div><div class="comp-stat-label">Per day</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">What works:</strong> Macro takes on crypto economy + marketing. Long threads with data. Very shareable — often quoted by VCs.<br><br>
+          <strong style="color: var(--text)">Gap for Lyuba:</strong> Tascha is more macro/academic. Lyuba = practitioner in the trenches, more tactical.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-name">Nodle / Hivemapper Marketing</div>
+        <div class="comp-handle">Various DePIN protocol accounts</div>
+        <div class="comp-role">DePIN protocols marketing teams</div>
+        <div class="comp-stats">
+          <div class="comp-stat-item"><div class="comp-stat-num">10-50K</div><div class="comp-stat-label">Protocol accounts</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">Daily</div><div class="comp-stat-label">Posting</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">What works:</strong> DePIN education, milestone announcements, ecosystem partnerships. Technical but accessible.<br><br>
+          <strong style="color: var(--text)">Gap for Lyuba:</strong> These are brand accounts. A <em>person</em> with insider CMO knowledge is more trusted than a brand.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-name">Marta Domasiewska</div>
+        <div class="comp-handle">@martsdom</div>
+        <div class="comp-role">CMO Celo Foundation</div>
+        <div class="comp-stats">
+          <div class="comp-stat-item"><div class="comp-stat-num">5K+</div><div class="comp-stat-label">Followers</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">2-3×</div><div class="comp-stat-label">Per day</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">What works:</strong> ReFi × community angle. Mission-driven messaging.<br><br>
+          <strong style="color: var(--text)">Gap for Lyuba:</strong> Marta is small account growing slowly. Lyuba can surpass her in 3-4 months with aggressive strategy.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-name">Messari Research Team</div>
+        <div class="comp-handle">@messari</div>
+        <div class="comp-role">Crypto research → DePIN reports</div>
+        <div class="comp-stats">
+          <div class="comp-stat-item"><div class="comp-stat-num">300K+</div><div class="comp-stat-label">Followers</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">Multiple</div><div class="comp-stat-label">Per day</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">What works:</strong> Deep DePIN research, category maps, sector analysis.<br><br>
+          <strong style="color: var(--text)">Opportunity:</strong> Comment on Messari DePIN threads with insider WiFi Map perspective — this drives discovery from their massive audience.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-name">Multicoin Capital / a16z Crypto</div>
+        <div class="comp-handle">@multicoincap / @a16zcrypto</div>
+        <div class="comp-role">Top DePIN investors + thought leaders</div>
+        <div class="comp-stats">
+          <div class="comp-stat-item"><div class="comp-stat-num">500K+</div><div class="comp-stat-label">Combined</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">Critical</div><div class="comp-stat-label">To engage</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">Opportunity:</strong> When they post about DePIN — reply fast with a specific WiFi Map insight or data point. Getting a like or reply from these accounts = thousands of new followers see you.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: Content Strategy -->
+  <div class="section" id="content-strategy">
+    <div class="section-title">
+      <div class="icon icon-yellow">📝</div>
+      Content Strategy — What to Tweet as Web3 CMO
+    </div>
+
+    <div style="font-size: 15px; font-weight: 700; margin-bottom: 14px;">📊 Content Mix</div>
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 28px;">
+      <div class="content-type" style="border-color: rgba(29,155,240,0.3);">
+        <div class="content-type-name" style="color: var(--accent)">🧵 Threads</div>
+        <div class="content-type-freq">2-3× per week</div>
+        <div class="content-type-reach" style="color: var(--green)">Highest reach</div>
+      </div>
+      <div class="content-type" style="border-color: rgba(120,86,255,0.3);">
+        <div class="content-type-name" style="color: var(--accent2)">💬 Hot Takes</div>
+        <div class="content-type-freq">Daily (2-3×)</div>
+        <div class="content-type-reach" style="color: var(--green)">High engagement</div>
+      </div>
+      <div class="content-type" style="border-color: rgba(0,200,150,0.3);">
+        <div class="content-type-name" style="color: var(--accent3)">🔁 QTs + Takes</div>
+        <div class="content-type-freq">Daily (1-2×)</div>
+        <div class="content-type-reach" style="color: var(--yellow)">Relationship builder</div>
+      </div>
+      <div class="content-type" style="border-color: rgba(247,177,85,0.3);">
+        <div class="content-type-name" style="color: var(--accent4)">🖼️ Images/Charts</div>
+        <div class="content-type-freq">3-5×/week</div>
+        <div class="content-type-reach" style="color: var(--green)">High bookmarks</div>
+      </div>
+      <div class="content-type" style="border-color: rgba(244,84,92,0.3);">
+        <div class="content-type-name" style="color: var(--red)">📢 WiFi Map news</div>
+        <div class="content-type-freq">Max 20% of posts</div>
+        <div class="content-type-reach" style="color: var(--yellow)">Brand signal</div>
+      </div>
+      <div class="content-type" style="border-color: rgba(155,125,232,0.3);">
+        <div class="content-type-name" style="color: var(--purple)">🎙️ X Spaces</div>
+        <div class="content-type-freq">1-2× per month</div>
+        <div class="content-type-reach" style="color: var(--green)">Network catalyst</div>
+      </div>
+    </div>
+
+    <!-- Thread Anatomy -->
+    <div style="font-size: 15px; font-weight: 700; margin-bottom: 14px;">🧵 Thread Anatomy — High-Performing Pattern</div>
+    <div class="thread-box">
+      <div class="thread-tweet">
+        <div style="position: relative;">
+          <div class="thread-avatar">LS</div>
+          <div class="thread-line"></div>
+        </div>
+        <div style="padding-top: 4px;">
+          <div class="thread-num">Tweet 1 — THE HOOK</div>
+          <div class="thread-text"><strong>DePIN is the most important infrastructure trend you've never heard of.</strong><br>
+          As CMO of one of the largest DePIN networks (200M users), here's what I know that Wall Street doesn't yet 🧵</div>
+        </div>
+      </div>
+      <div class="thread-tweet">
+        <div style="position: relative;">
+          <div class="thread-avatar">LS</div>
+          <div class="thread-line"></div>
+        </div>
+        <div style="padding-top: 4px;">
+          <div class="thread-num">Tweet 2 — CONTEXT / CREDIBILITY</div>
+          <div class="thread-text">Quick background on me:<br>— CMO at WiFi Map (200M users, DePIN, $WIFI token)<br>— 6 years in Web3 GTM<br>— Launched tokens, built communities, watched projects fail<br><br>I'm writing this for founders who want to build, not trade.</div>
+        </div>
+      </div>
+      <div class="thread-tweet">
+        <div style="position: relative;">
+          <div class="thread-avatar">LS</div>
+          <div class="thread-line"></div>
+        </div>
+        <div style="padding-top: 4px;">
+          <div class="thread-num">Tweets 3-8 — SUBSTANCE (each stands alone)</div>
+          <div class="thread-text">Each tweet is a standalone insight. One idea per tweet. Use line breaks. Add data when possible.<br><br>Example: <strong>"DePIN networks grow differently than Web2 networks. The user IS the infrastructure. This changes everything about acquisition strategy."</strong><br><br>Continue with examples, case studies, contrarian points...</div>
+        </div>
+      </div>
+      <div class="thread-tweet">
+        <div style="position: relative;">
+          <div class="thread-avatar">LS</div>
+          <div class="thread-line"></div>
+        </div>
+        <div style="padding-top: 4px;">
+          <div class="thread-num">Tweet 9 — PERSONAL ANGLE</div>
+          <div class="thread-text">Add a personal story or failure. "When we launched $WIFI, we made one mistake that cost us 3 weeks of momentum. Here's what we learned..."<br><br>This humanizes the thread and dramatically increases saves/shares.</div>
+        </div>
+      </div>
+      <div class="thread-tweet">
+        <div style="position: relative;">
+          <div class="thread-avatar">LS</div>
+        </div>
+        <div style="padding-top: 4px;">
+          <div class="thread-num">Tweet 10 — CTA</div>
+          <div class="thread-text">If this was useful:<br>→ RT the first tweet to help others<br>→ Follow @skripeleva for weekly DePIN marketing takes<br>→ DM me if you're building in DePIN and want to connect<br><br>Next thread: [topic teaser]</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hot take examples -->
+    <div style="margin-top: 28px; font-size: 15px; font-weight: 700; margin-bottom: 14px;">⚡ Hot Take Tweet Examples</div>
+    <div class="grid-2">
+      <div class="tweet-mock">
+        <div class="tweet-author">
+          <div class="tweet-avatar">LS</div>
+          <div>
+            <div class="tweet-name">Lyubov Skripeleva 🌐</div>
+            <div class="tweet-handle">@skripeleva · CMO @WiFiMap</div>
+          </div>
+        </div>
+        <div class="tweet-body">
+          Most Web3 projects die from too much marketing, not too little.<br><br>
+          They market before they've earned the right to be marketed.<br><br>
+          <strong>Community trust is the product. Everything else is noise.</strong>
+        </div>
+        <div class="tweet-stats">
+          <div class="tweet-stat">💬 247 replies</div>
+          <div class="tweet-stat">🔁 891 RTs</div>
+          <div class="tweet-stat">❤️ 3.2K likes</div>
+          <div class="tweet-stat">🔖 1.1K saves</div>
+        </div>
+      </div>
+      <div class="tweet-mock">
+        <div class="tweet-author">
+          <div class="tweet-avatar">LS</div>
+          <div>
+            <div class="tweet-name">Lyubov Skripeleva 🌐</div>
+            <div class="tweet-handle">@skripeleva · CMO @WiFiMap</div>
+          </div>
+        </div>
+        <div class="tweet-body">
+          WiFi Map has 200M users.<br><br>
+          200M people who already understand DePIN without knowing the word.<br><br>
+          <strong>The biggest DePIN challenge isn't adoption. It's education.</strong><br><br>
+          Most protocols are building the answer before people understand the question.
+        </div>
+        <div class="tweet-stats">
+          <div class="tweet-stat">💬 183 replies</div>
+          <div class="tweet-stat">🔁 634 RTs</div>
+          <div class="tweet-stat">❤️ 2.8K likes</div>
+          <div class="tweet-stat">🔖 920 saves</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: 30-Day Twitter Content Plan -->
+  <div class="section" id="content-plan">
+    <div class="section-title">
+      <div class="icon icon-yellow">📅</div>
+      30-Day Twitter/X Content Calendar
+    </div>
+    <p class="subtitle">Note: This shows 1 key post per day. Supplement with 2-3 additional hot takes/QTs daily.</p>
+
+    <!-- Week 1 -->
+    <div class="week-block">
+      <div class="week-header">
+        <span>📍 Week 1 — Establish Identity (Days 1-7)</span>
+        <span class="tag tag-blue">Goal: 500 followers, 5 threads posted</span>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 1 — Mon</div>
+        <div><span class="tag tag-blue">Intro Thread</span></div>
+        <div class="week-content">PINNED: "I'm Lyubov, CMO at WiFi Map (200M users, DePIN). I'm going to tweet everything I know about Web3 marketing and DePIN growth. Follow for the unglamorous truth 🧵"</div>
+        <div class="week-type">Identity / Hook</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 2 — Tue</div>
+        <div><span class="tag tag-purple">Hot Take</span></div>
+        <div class="week-content">"DePIN is not a crypto narrative. It's an infrastructure narrative that happens to use crypto. The marketing implications of this distinction are massive."</div>
+        <div class="week-type">DePIN positioning</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 3 — Wed</div>
+        <div><span class="tag tag-green">Thread</span></div>
+        <div class="week-content">Thread: "Why 200M people are already part of DePIN without knowing it — the WiFi Map story" [8 tweets, data-driven, ends with $WIFI token education]</div>
+        <div class="week-type">DePIN education</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 4 — Thu</div>
+        <div><span class="tag tag-yellow">Poll</span></div>
+        <div class="week-content">"If you had to describe DePIN in one word: 🅐 Infrastructure 🅑 Internet 🅒 Revolution 🅓 Still figuring it out — Tell me + I'll share the marketing lesson in each answer"</div>
+        <div class="week-type">Engagement + education</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 5 — Fri</div>
+        <div><span class="tag tag-purple">Hot Take</span></div>
+        <div class="week-content">"The Web3 CMO job description in 2026: 30% marketing, 30% community lead, 20% tokenomics consultant, 20% explaining to devs why you can't 'just tweet more'"</div>
+        <div class="week-type">CMO life / relatable</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 6 — Sat</div>
+        <div><span class="tag tag-green">Thread</span></div>
+        <div class="week-content">Thread: "5 lessons from 6 years doing Web3 marketing. Each one I learned the hard way." [personal, vulnerable, specific mistakes with outcomes]</div>
+        <div class="week-type">Lessons / trust building</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 7 — Sun</div>
+        <div><span class="tag tag-blue">QT + take</span></div>
+        <div class="week-content">Quote a Messari / a16z DePIN report with: "This confirms what we see at WiFi Map: [specific insight]. The category is moving faster than most realize."</div>
+        <div class="week-type">Engage big accounts</div>
+      </div>
+    </div>
+
+    <!-- Week 2 -->
+    <div class="week-block">
+      <div class="week-header">
+        <span>📍 Week 2 — Build Authority (Days 8-14)</span>
+        <span class="tag tag-purple">Goal: 1,500 followers, first viral thread</span>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 8</div>
+        <div><span class="tag tag-green">Thread</span></div>
+        <div class="week-content">Thread: "The DePIN GTM playbook — 5 stages no one talks about." [SCALE framework breakdown: Story, Community, Acquisition, Launch, Ecosystem]</div>
+        <div class="week-type">Framework / high saves</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 9</div>
+        <div><span class="tag tag-purple">Hot Take</span></div>
+        <div class="week-content">"Crypto Twitter is wrong about community. A Discord with 50K people is not a community. 5K people who understand your protocol and defend it unprompted — THAT'S a community."</div>
+        <div class="week-type">Contrarian / debate</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 10</div>
+        <div><span class="tag tag-yellow">Image</span></div>
+        <div class="week-content">Infographic: "DePIN Market Map 2026" — categories, key players, WiFi Map position. Visual, shareable, high bookmark rate.</div>
+        <div class="week-type">Visual / bookmark magnet</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 11</div>
+        <div><span class="tag tag-green">Thread</span></div>
+        <div class="week-content">Thread: "How meme coins are better at marketing than serious Web3 projects (and what to steal from them)" [bridges viral meme culture to DePIN/serious projects]</div>
+        <div class="week-type">Contrarian + practical</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 12</div>
+        <div><span class="tag tag-blue">QT + take</span></div>
+        <div class="week-content">Quote a Web3 founder's thread about product-market fit: "From a marketing POV, the PMF question in DePIN is different. You're finding fit for a network, not a product. Here's what that means..."</div>
+        <div class="week-type">Intellectual add-on</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 13</div>
+        <div><span class="tag tag-yellow">Poll</span></div>
+        <div class="week-content">"Which DePIN vertical will 10× in 2026? 🅐 Connectivity (WiFi, 5G) 🅑 Mapping/Geospatial 🅒 Energy 🅓 AI compute — I'll write a deep dive on the winner tomorrow"</div>
+        <div class="week-type">Prediction + engagement</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 14</div>
+        <div><span class="tag tag-green">Thread</span></div>
+        <div class="week-content">Thread: "[poll winner] will 10× in 2026. Here's my CMO thesis — the narrative arc, the market gaps, and what it needs from a marketing POV to get there."</div>
+        <div class="week-type">Follow-through on poll</div>
+      </div>
+    </div>
+
+    <!-- Week 3 -->
+    <div class="week-block">
+      <div class="week-header">
+        <span>📍 Week 3 — Network Amplification (Days 15-21)</span>
+        <span class="tag tag-green">Goal: 3,000 followers, first X Space</span>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 15</div>
+        <div><span class="tag tag-green">Thread</span></div>
+        <div class="week-content">Thread: "Token launch is a marketing event, not a finance event. Here's how we planned the $WIFI launch from a GTM perspective." [tactical, specific, high credibility]</div>
+        <div class="week-type">WiFi Map insider</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 16</div>
+        <div><span class="tag tag-purple">Hot Take</span></div>
+        <div class="week-content">"The most underrated channel in DePIN marketing: existing users explaining the protocol to strangers. Better than any KOL deal I've seen."</div>
+        <div class="week-type">UGC / community angle</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 17</div>
+        <div><span class="tag tag-blue">X Space</span></div>
+        <div class="week-content">Host first X Space: "DePIN Marketing Roundtable — 5 founders/builders on what's actually working" [invite 3-4 DePIN accounts with 5K+ followers]</div>
+        <div class="week-type">Network catalyst</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 18</div>
+        <div><span class="tag tag-yellow">Image</span></div>
+        <div class="week-content">"The 3 audiences every DePIN protocol must speak to simultaneously" [visual: crypto natives vs mainstream vs B2B buyers — with different messaging frameworks]</div>
+        <div class="week-type">Framework visual</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 19</div>
+        <div><span class="tag tag-green">Thread</span></div>
+        <div class="week-content">Thread: "I moved from Moscow to Dubai to NYC for Web3 jobs. Here's what I learned about crypto culture in each city — and how it should change your marketing strategy."</div>
+        <div class="week-type">Personal + global insight</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 20</div>
+        <div><span class="tag tag-purple">Hot Take</span></div>
+        <div class="week-content">"AI won't replace Web3 CMOs. But Web3 CMOs who don't use AI will be replaced by those who do. Here's my current AI marketing stack 👇" [list 5-7 tools with use cases]</div>
+        <div class="week-type">AI × Web3 / practical</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 21</div>
+        <div><span class="tag tag-blue">QT + take</span></div>
+        <div class="week-content">Engage with a top DePIN VC or researcher's post with a substantive reply that adds new data or perspective from WiFi Map's experience. Make it noteworthy enough to get liked/replied by them.</div>
+        <div class="week-type">KOL relationship building</div>
+      </div>
+    </div>
+
+    <!-- Week 4 -->
+    <div class="week-block">
+      <div class="week-header">
+        <span>📍 Week 4 — Scale & Systems (Days 22-30)</span>
+        <span class="tag tag-yellow">Goal: 5,000 followers, establish weekly format</span>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 22</div>
+        <div><span class="tag tag-green">Thread</span></div>
+        <div class="week-content">Thread: "The biggest mistake DePIN protocols make in marketing — and it's not what you think. A breakdown with 3 real examples." [no names, but clearly industry-insider level]</div>
+        <div class="week-type">Industry lesson</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 23</div>
+        <div><span class="tag tag-purple">Hot Take</span></div>
+        <div class="week-content">"Retention in DePIN is a fundamentally different problem than Web2. You're retaining hardware operators AND end users simultaneously. Most teams optimize for only one."</div>
+        <div class="week-type">DePIN specific insight</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 24</div>
+        <div><span class="tag tag-yellow">Image</span></div>
+        <div class="week-content">Share a WiFi Map stat/milestone with minimal company speak: "This week WiFi Map crossed [X hotspots] in [region]. What this means for global DePIN adoption 👇"</div>
+        <div class="week-type">Data / milestone</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 25</div>
+        <div><span class="tag tag-green">Thread</span></div>
+        <div class="week-content">Thread: "Building a Web3 marketing team from scratch — what I'd do differently. Hiring, structure, tools, budget allocation." [tactical, experience-based]</div>
+        <div class="week-type">Team building / CMO</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 26</div>
+        <div><span class="tag tag-yellow">Poll</span></div>
+        <div class="week-content">"What's the #1 content type that actually moves DePIN education forward? 🅐 Long Twitter threads 🅑 YouTube explainers 🅒 Podcasts 🅓 Memes — asking because we're rethinking our content mix at WiFi Map"</div>
+        <div class="week-type">Community research</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 27</div>
+        <div><span class="tag tag-blue">QT + take</span></div>
+        <div class="week-content">Pick a controversial crypto take from a big account and offer the CMO perspective: "As someone who's on the marketing side of this debate, here's what this looks like from the inside..."</div>
+        <div class="week-type">Cross-niche engagement</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 28</div>
+        <div><span class="tag tag-green">Thread</span></div>
+        <div class="week-content">Thread: "30 days of tweeting about DePIN marketing — what resonated, what flopped, and what I'm building next." [month 1 reflection, engagement transparency, set expectations for month 2]</div>
+        <div class="week-type">Accountability / meta</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 29</div>
+        <div><span class="tag tag-purple">Hot Take</span></div>
+        <div class="week-content">"The DePIN stack most people ignore: distribution → awareness → education → trial → earn → hold. Most protocols optimize step 1 and skip steps 2-4 entirely."</div>
+        <div class="week-type">Framework / shareable</div>
+      </div>
+      <div class="week-row">
+        <div class="week-day">Day 30</div>
+        <div><span class="tag tag-blue">X Space</span></div>
+        <div class="week-content">"Month 1 done. Hosting an X Space this week: 'DePIN Marketing Office Hours' — ask me anything about Web3 GTM, token launches, community building." [open format, community building]</div>
+        <div class="week-type">Community → network</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: Growth Hacks -->
+  <div class="section" id="growth-hacks">
+    <div class="section-title">
+      <div class="icon icon-green">⚡</div>
+      Growth Hacks — Fast Track to 5K Followers as DePIN CMO
+    </div>
+
+    <div class="grid-3" style="margin-bottom: 24px;">
+      <div class="hack-card">
+        <div class="hack-num">01</div>
+        <div class="hack-title">🌊 Follow the DePIN KOLs and Reply FAST</div>
+        <div class="hack-desc">Identify 20 key DePIN/crypto accounts: Messari, Multicoin, a16z Crypto, IoTeX, Helium, Hivemapper, DePIN Ninja, etc. Turn on tweet notifications. Reply within 5 minutes of their posts with substantive, insider-level takes. Being first with a quality reply gets you seen by thousands.</div>
+        <div class="hack-result">→ 50-200 new followers per well-placed reply on big account post</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">02</div>
+        <div class="hack-title">🎙️ Host X Spaces Monthly</div>
+        <div class="hack-desc">X Spaces is the fastest way to build real relationships on crypto Twitter. Host "DePIN Marketing Office Hours" once a month. Invite 3-4 builders/founders. Announce 48h in advance. The algorithm significantly boosts accounts that host Spaces to new audiences.</div>
+        <div class="hack-result">→ Each Space can bring 200-1,000 new followers if well-promoted</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">03</div>
+        <div class="hack-title">📱 Cross-promote LinkedIn → X</div>
+        <div class="hack-desc">At the end of each LinkedIn post (first comment): "Full breakdown as a Twitter thread → follow @skripeleva" and vice versa. Your LinkedIn audience (likely larger initially) drives X growth. At the end of each X thread: "I write more tactical DePIN marketing content on LinkedIn."</div>
+        <div class="hack-result">→ Cross-platform funnel accelerates early growth significantly</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">04</div>
+        <div class="hack-title">🔖 Design for Bookmarks</div>
+        <div class="hack-desc">Bookmarks are the highest signal on X. Content that gets bookmarked: frameworks, checklists, prediction threads, "save this for later" resources. End threads with "RT/bookmark to save this" rather than generic CTAs. Bookmarks boost reach significantly in X's algorithm.</div>
+        <div class="hack-result">→ High-bookmark posts get sustained distribution for days, not hours</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">05</div>
+        <div class="hack-title">🧩 WiFi Map X Account Boost</div>
+        <div class="hack-desc">Coordinate with the @WiFiMap account to RT/QT your best threads about DePIN. WiFi Map has an established follower base in the crypto/DePIN niche. A company account amplifying the CMO's personal content is a powerful growth lever that feels authentic.</div>
+        <div class="hack-result">→ Corporate RT of a good thread can add 300-800 followers in 24h</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">06</div>
+        <div class="hack-title">🎁 Give Value Before Asking</div>
+        <div class="hack-desc">The fastest growth comes from being the person who helps others. DM 5 DePIN founders per week with genuine tactical advice based on their public content. No pitch, no ask. Give freely. Many will become advocates who mention you publicly, driving massive discovery.</div>
+        <div class="hack-result">→ 1 public shoutout from a 20K+ account = 200-500 new followers</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">07</div>
+        <div class="hack-title">📊 Data Drops from WiFi Map</div>
+        <div class="hack-desc">200M users = a massive data asset. Share aggregated, anonymized insights: "WiFi Map data shows: X% of DePIN users in emerging markets earn more from tokens than they spend on data plans." Insider data that nobody else has = automatic authority and virality.</div>
+        <div class="hack-result">→ Data exclusives are shared by researchers, VCs, and media accounts</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">08</div>
+        <div class="hack-title">🔥 Newsjacking DePIN Events</div>
+        <div class="hack-desc">When Helium launches new network, Filecoin makes announcement, or DePIN gets mainstream media coverage — tweet within 60 minutes with an insider take. Use #DePIN hashtag. Being first with quality context on trending topics = discovery engine. Set up Google Alerts.</div>
+        <div class="hack-result">→ Timely commentary during trending periods: 5-20× normal impressions</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">09</div>
+        <div class="hack-title">💎 X Premium (Must-Have)</div>
+        <div class="hack-desc">Get X Premium from day 1. This: (1) gives longer tweets and threads with first article (better content quality), (2) algorithmically boosts your reply visibility in big threads, (3) unlocks analytics to see what's working. At $8/month, it's the highest-ROI marketing spend for personal brand.</div>
+        <div class="hack-result">→ Premium replies get 3-5× more visibility in engaged threads</div>
+      </div>
+    </div>
+
+    <!-- 90-Day Roadmap -->
+    <div style="font-size: 15px; font-weight: 700; margin-bottom: 14px;">🗺️ 90-Day Growth Roadmap</div>
+    <div class="grid-4">
+      <div class="phase-card">
+        <div class="phase-label">Month 1 · Days 1–30</div>
+        <div class="phase-title">Foundation</div>
+        <div class="phase-goal">🎯 Target: 1,000–2,000 followers</div>
+        <ul class="phase-actions">
+          <li>Optimize profile (bio, photo, banner, pin)</li>
+          <li>Get X Premium subscription</li>
+          <li>Post intro thread — pin it</li>
+          <li>2-3 threads/week + daily hot takes</li>
+          <li>Engage 20 DePIN accounts daily</li>
+          <li>Cross-promote from LinkedIn</li>
+          <li>First X Space (week 3)</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label">Month 2 · Days 31–60</div>
+        <div class="phase-title">Amplification</div>
+        <div class="phase-goal">🎯 Target: 3,000–5,000 followers</div>
+        <ul class="phase-actions">
+          <li>Find 5-10 reciprocal promoters</li>
+          <li>Establish weekly thread series</li>
+          <li>Data drops from WiFi Map</li>
+          <li>Second X Space with notable guests</li>
+          <li>First viral thread attempt (try 3 angles)</li>
+          <li>Guest on 2-3 DePIN podcasts → cross-promo</li>
+          <li>Attend/tweet at ETHGlobal / DePIN event</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label">Month 3 · Days 61–90</div>
+        <div class="phase-title">Authority</div>
+        <div class="phase-goal">🎯 Target: 5,000–10,000 followers</div>
+        <ul class="phase-actions">
+          <li>Launch "DePIN Marketing Weekly" newsletter → cross-promote on X</li>
+          <li>Collab threads with notable Web3 CMOs</li>
+          <li>Monthly X Space becomes expected</li>
+          <li>Begin being tagged in DePIN marketing convos</li>
+          <li>Pitch to be on Bankless / Unchained / other crypto podcasts</li>
+          <li>Establish #DePINMarketing hashtag presence</li>
+        </ul>
+      </div>
+      <div class="phase-card" style="border-top-color: var(--accent4);">
+        <div class="phase-label">Month 4–12</div>
+        <div class="phase-title">Scale</div>
+        <div class="phase-goal">🎯 Target: 20,000+ followers</div>
+        <ul class="phase-actions">
+          <li>Weekly "DePIN Marketing Digest" thread</li>
+          <li>Speaking at TOKEN2049, Permissionless, Consensus</li>
+          <li>Inbound media mentions as DePIN CMO voice</li>
+          <li>Book meetings through X DMs with VCs/founders</li>
+          <li>Content machine: 1 thread → newsletter → LinkedIn post → video</li>
+          <li>Potential: "The DePIN Marketing Guide" publication</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8: Do's and Don'ts -->
+  <div class="section" id="rules">
+    <div class="section-title">
+      <div class="icon icon-red">📋</div>
+      Rules of Engagement — Crypto Twitter (CT) Culture
+    </div>
+    <div class="dodont">
+      <div class="do-box">
+        <h4>✅ CT Culture: DO THIS</h4>
+        <ul class="do-list">
+          <li>Have actual opinions — CT rewards conviction</li>
+          <li>Share failures and lessons honestly — CT rewards humility</li>
+          <li>Engage with criticism intelligently — never delete or block by default</li>
+          <li>Credit sources when referencing others' research or ideas</li>
+          <li>Use crypto slang naturally but don't force it (gm, wagmi, etc.)</li>
+          <li>Post during key market events / DePIN news moments fast</li>
+          <li>Engage with "smaller" accounts authentically — CT remembers those who engaged early</li>
+          <li>Show the process, not just the polish — "building in public" is valued</li>
+          <li>Make your mistakes public and learn visibly — authenticity > perfection</li>
+          <li>Ask smart questions — the best questions get more engagement than many answers</li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <h4>🚫 CT Culture: NEVER DO THIS</h4>
+        <ul class="dont-list">
+          <li>Shill $WIFI or predict price movements — instant credibility killer</li>
+          <li>Tweet corporate press releases without adding personal perspective</li>
+          <li>Block critics — engage or ignore, but blocking looks fragile on CT</li>
+          <li>Overclaim results ("We DOMINATED" / "MASSIVE win today")</li>
+          <li>Use AI-generated content that's obviously robotic</li>
+          <li>Tweet when emotional or drunk (delete > post when angry)</li>
+          <li>Beg for follows or retweets — it's repellent on CT</li>
+          <li>Cross-post identical LinkedIn corporate content without CT adaptation</li>
+          <li>Copy someone's thread format without credit — CT is a small world</li>
+          <li>Go dark for 7+ days without explanation — destroys algorithmic momentum</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 9: Metrics to Track -->
+  <div class="section" id="metrics">
+    <div class="section-title">
+      <div class="icon icon-blue">📊</div>
+      KPIs & Metrics — What to Measure Monthly
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Month 1 Target</th>
+            <th>Month 3 Target</th>
+            <th>Month 6 Target</th>
+            <th>Month 12 Target</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Followers</strong></td>
+            <td>1,000–2,000</td>
+            <td>5,000–8,000</td>
+            <td>12,000</td>
+            <td>20,000+</td>
+          </tr>
+          <tr>
+            <td><strong>Avg impressions/tweet</strong></td>
+            <td>500–1,000</td>
+            <td>2,000–5,000</td>
+            <td>5,000–10,000</td>
+            <td>10,000–50,000</td>
+          </tr>
+          <tr>
+            <td><strong>Avg engagement rate</strong></td>
+            <td>>3%</td>
+            <td>>5%</td>
+            <td>>4%</td>
+            <td>>3%</td>
+          </tr>
+          <tr>
+            <td><strong>Thread saves (bookmarks)</strong></td>
+            <td>50+ per thread</td>
+            <td>200+ per thread</td>
+            <td>500+ per thread</td>
+            <td>1,000+ per thread</td>
+          </tr>
+          <tr>
+            <td><strong>Profile visits → follows rate</strong></td>
+            <td>>15%</td>
+            <td>>20%</td>
+            <td>>20%</td>
+            <td>>25%</td>
+          </tr>
+          <tr>
+            <td><strong>Inbound DMs from target personas</strong></td>
+            <td>5/month</td>
+            <td>20/month</td>
+            <td>50/month</td>
+            <td>100+/month</td>
+          </tr>
+          <tr>
+            <td><strong>X Space attendees</strong></td>
+            <td>50–150</td>
+            <td>200–500</td>
+            <td>500–1,000</td>
+            <td>1,000–3,000</td>
+          </tr>
+          <tr>
+            <td><strong>Media/podcast mentions</strong></td>
+            <td>0</td>
+            <td>1–2</td>
+            <td>3–5</td>
+            <td>10+</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; color: var(--text3); font-size: 13px;">
+    <div>𝕏 Twitter/X Personal Brand Strategy · Lyubov Skripeleva · March 2026</div>
+    <div>CMO @ WiFi Map · Web3 / DePIN · New York</div>
+  </div>
+
+</div>
+</body>
+</html>

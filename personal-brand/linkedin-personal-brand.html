@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedIn Personal Brand Research — Lyubov Skripeleva</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161a24;
+    --surface2: #1e2433;
+    --border: #2a3147;
+    --accent: #4f8ef7;
+    --accent2: #7c5cbf;
+    --accent3: #22c7a0;
+    --accent4: #f7b84f;
+    --danger: #f75f5f;
+    --text: #e8ecf4;
+    --text2: #8b93a8;
+    --text3: #5e6880;
+    --green: #22c7a0;
+    --yellow: #f7b84f;
+    --red: #f75f5f;
+    --purple: #9b7de8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .header {
+    background: linear-gradient(135deg, #0a0e1a 0%, #1a1040 50%, #0a1a2e 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(79,142,247,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(79,142,247,0.12);
+    border: 1px solid rgba(79,142,247,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #fff 0%, #a0b4d6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .header p {
+    color: var(--text2);
+    font-size: 16px;
+  }
+  .meta-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .meta-item span.dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent3);
+    display: inline-block;
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 40px 48px; }
+  .section {
+    margin-bottom: 48px;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title .icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .icon-blue { background: rgba(79,142,247,0.15); }
+  .icon-green { background: rgba(34,199,160,0.15); }
+  .icon-purple { background: rgba(124,92,191,0.15); }
+  .icon-yellow { background: rgba(247,184,79,0.15); }
+  .icon-red { background: rgba(247,95,95,0.15); }
+
+  /* Grid layouts */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+  .card-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+
+  /* Profile audit box */
+  .profile-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .profile-header {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+  }
+  .profile-info h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .profile-info p { color: var(--text2); font-size: 14px; }
+
+  .audit-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .audit-row:last-child { border-bottom: none; }
+  .audit-field { font-size: 12px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; }
+  .audit-current { font-size: 14px; color: var(--text2); }
+  .audit-suggest { font-size: 14px; color: var(--accent3); }
+
+  .score-ring {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .score-ring .score-num {
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--yellow);
+    line-height: 1;
+  }
+  .score-ring .score-label {
+    font-size: 12px;
+    color: var(--text3);
+    text-align: center;
+  }
+
+  /* Status tags */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .tag-green { background: rgba(34,199,160,0.12); color: var(--green); border: 1px solid rgba(34,199,160,0.25); }
+  .tag-yellow { background: rgba(247,184,79,0.12); color: var(--yellow); border: 1px solid rgba(247,184,79,0.25); }
+  .tag-red { background: rgba(247,95,95,0.12); color: var(--red); border: 1px solid rgba(247,95,95,0.25); }
+  .tag-blue { background: rgba(79,142,247,0.12); color: var(--accent); border: 1px solid rgba(79,142,247,0.25); }
+  .tag-purple { background: rgba(155,125,232,0.12); color: var(--purple); border: 1px solid rgba(155,125,232,0.25); }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  thead th {
+    background: var(--surface2);
+    color: var(--text2);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text);
+    vertical-align: top;
+  }
+  tbody tr:hover td { background: rgba(255,255,255,0.02); }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  /* Algorithm signals */
+  .signal-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .signal-row:last-child { border-bottom: none; }
+  .signal-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .signal-content h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .signal-content p { font-size: 13px; color: var(--text2); }
+
+  /* Pillars */
+  .pillar-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    border-top: 3px solid var(--accent);
+  }
+  .pillar-card:nth-child(2) { border-top-color: var(--accent2); }
+  .pillar-card:nth-child(3) { border-top-color: var(--accent3); }
+  .pillar-card:nth-child(4) { border-top-color: var(--accent4); }
+  .pillar-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .pillar-name {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .pillar-desc { font-size: 13px; color: var(--text2); margin-bottom: 12px; }
+  .pillar-topics { display: flex; flex-wrap: wrap; gap: 6px; }
+  .topic-tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  /* Content plan */
+  .day-row {
+    display: grid;
+    grid-template-columns: 48px 80px 120px 1fr 140px;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    font-size: 14px;
+  }
+  .day-row:last-child { border-bottom: none; }
+  .day-num {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text3);
+  }
+  .day-format { color: var(--text2); font-size: 12px; }
+  .day-hook { color: var(--text); font-size: 13px; line-height: 1.5; }
+  .day-pillar { font-size: 12px; }
+
+  /* Headline variants */
+  .headline-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .headline-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(79,142,247,0.15);
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .headline-text { font-size: 15px; font-weight: 600; }
+  .headline-why { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+  /* About section */
+  .about-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .about-box p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text2);
+  }
+  .about-box p + p { margin-top: 16px; }
+  .about-highlight { color: var(--text); font-weight: 600; }
+
+  /* Framework */
+  .framework-box {
+    background: linear-gradient(135deg, rgba(79,142,247,0.05) 0%, rgba(124,92,191,0.05) 100%);
+    border: 1px solid rgba(79,142,247,0.2);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .framework-name {
+    font-size: 24px;
+    font-weight: 900;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .framework-steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .framework-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .framework-step .step-letter {
+    font-size: 28px;
+    font-weight: 900;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .framework-step .step-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .framework-step .step-desc { font-size: 11px; color: var(--text2); }
+
+  /* Growth hacks */
+  .hack-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .hack-num {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .hack-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .hack-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .hack-result { 
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* Do/Don't */
+  .dodont {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .do-box {
+    background: rgba(34,199,160,0.05);
+    border: 1px solid rgba(34,199,160,0.2);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .dont-box {
+    background: rgba(247,95,95,0.05);
+    border: 1px solid rgba(247,95,95,0.2);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .do-box h4 { color: var(--green); margin-bottom: 14px; font-size: 14px; }
+  .dont-box h4 { color: var(--red); margin-bottom: 14px; font-size: 14px; }
+  .do-list, .dont-list { list-style: none; }
+  .do-list li, .dont-list li {
+    font-size: 13px;
+    color: var(--text2);
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .do-list li:last-child, .dont-list li:last-child { border-bottom: none; }
+  .do-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+  .dont-list li::before { content: '✗'; color: var(--red); font-weight: 700; flex-shrink: 0; }
+
+  /* Competitor */
+  .comp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .comp-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .comp-role { font-size: 12px; color: var(--text3); margin-bottom: 12px; }
+  .comp-stat { 
+    display: flex; gap: 16px; margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .comp-stat-item { text-align: center; }
+  .comp-stat-num { font-size: 18px; font-weight: 800; color: var(--accent); }
+  .comp-stat-label { font-size: 11px; color: var(--text3); }
+
+  /* Sticky TOC */
+  .toc {
+    position: sticky;
+    top: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 13px;
+  }
+  .toc h4 { color: var(--text2); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+  .toc a { display: block; color: var(--text2); text-decoration: none; padding: 5px 8px; border-radius: 6px; margin-bottom: 2px; }
+  .toc a:hover { background: var(--surface2); color: var(--text); }
+
+  .two-col-layout {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  @media (max-width: 1024px) {
+    .two-col-layout { grid-template-columns: 1fr; }
+    .container { padding: 24px; }
+    .header { padding: 24px; }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .framework-steps { grid-template-columns: repeat(3, 1fr); }
+    .audit-row { grid-template-columns: 1fr; }
+    .day-row { grid-template-columns: 1fr; }
+  }
+
+  ul.check-list { list-style: none; }
+  ul.check-list li {
+    padding: 6px 0;
+    color: var(--text2);
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+  }
+  ul.check-list li:last-child { border-bottom: none; }
+
+  .subtitle { font-size: 14px; color: var(--text2); margin-bottom: 16px; }
+
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    background: rgba(79,142,247,0.05);
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--text2);
+    font-style: italic;
+  }
+
+  .spacer { height: 1px; background: var(--border); margin: 32px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">🔵 LinkedIn Brand Research</div>
+  <h1>LinkedIn Personal Brand Strategy</h1>
+  <p>Full SMM audit & playbook for <strong>Lyubov Skripeleva</strong> — CMO @ WiFi Map · Web3 / DePIN · New York</p>
+  <div class="meta-row">
+    <div class="meta-item"><span class="dot"></span> Research date: March 2026</div>
+    <div class="meta-item"><span class="dot"></span> Target niche: Web3 / DePIN / B2B SaaS Marketing</div>
+    <div class="meta-item"><span class="dot"></span> Goal: thought leadership + professional network + hiring signal</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Overview stats -->
+  <div class="grid-4" style="margin-bottom: 40px;">
+    <div class="card">
+      <div class="card-label">Profile Score (Before)</div>
+      <div class="card-value" style="color: var(--yellow)">54<span style="font-size:18px; color: var(--text3)">/100</span></div>
+      <div class="card-desc">Needs headline, active posting, About rewrite</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Niche Opportunity</div>
+      <div class="card-value" style="color: var(--green)">🔥 High</div>
+      <div class="card-desc">DePIN CMO is underserved on LinkedIn — few voices</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Avg. Web3 CMO Follower</div>
+      <div class="card-value">8–25K</div>
+      <div class="card-desc">Realistic 12-month target: 5,000–12,000</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Content Frequency</div>
+      <div class="card-value">4–5x</div>
+      <div class="card-desc">Posts per week for algorithm growth</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: Profile Audit -->
+  <div class="section" id="profile-audit">
+    <div class="section-title">
+      <div class="icon icon-blue">👤</div>
+      Profile Audit — Current State vs. Recommended
+    </div>
+
+    <div class="profile-box">
+      <div class="profile-header">
+        <div class="avatar">LS</div>
+        <div class="profile-info">
+          <h2>Lyubov Skripeleva</h2>
+          <p>WiFi Map · CMO / Head of Marketing · New York, NY · <span class="tag tag-yellow">⚠️ Needs Optimization</span></p>
+        </div>
+        <div class="score-ring" style="margin-left: auto;">
+          <div class="score-num">54</div>
+          <div class="score-label">Current<br>Score</div>
+        </div>
+        <div class="score-ring" style="margin-left: 20px;">
+          <div class="score-num" style="color: var(--green)">91</div>
+          <div class="score-label">Target<br>Score</div>
+        </div>
+      </div>
+
+      <div class="audit-row" style="display: grid; grid-template-columns: 140px 1fr 1fr; font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; padding-bottom: 8px;">
+        <div>Field</div>
+        <div>Current</div>
+        <div>✅ Recommended</div>
+      </div>
+
+      <div class="audit-row">
+        <div class="audit-field">Headline</div>
+        <div class="audit-current">Results-driven Chief Marketing Officer with 5+ years of experience in B2B, B2C, mobile… <span class="tag tag-red">Generic</span></div>
+        <div class="audit-suggest">CMO @ WiFi Map (200M users) | Web3 & DePIN Growth | Token Launch · Go-to-Market · Community-Led Scaling</div>
+      </div>
+
+      <div class="audit-row">
+        <div class="audit-field">Profile Photo</div>
+        <div class="audit-current">Present (assumed) <span class="tag tag-yellow">Check quality</span></div>
+        <div class="audit-suggest">Professional, high-contrast, warm background, NYC/tech vibe. LinkedIn photos with good lighting get 14× more profile views.</div>
+      </div>
+
+      <div class="audit-row">
+        <div class="audit-field">Banner Image</div>
+        <div class="audit-current">Default / unknown <span class="tag tag-red">Missing</span></div>
+        <div class="audit-suggest">Custom banner: "CMO @ WiFi Map · Building the DePIN Economy · New York" with WiFi Map branding + $WIFI token visual</div>
+      </div>
+
+      <div class="audit-row">
+        <div class="audit-field">About Section</div>
+        <div class="audit-current">Short truncated preview visible. Generic "results-driven CMO" language. <span class="tag tag-red">Weak hook</span></div>
+        <div class="audit-suggest">Rewrite with strong hook in line 1: who you are, what you've built, specific numbers, mission. See optimized version below.</div>
+      </div>
+
+      <div class="audit-row">
+        <div class="audit-field">Featured Section</div>
+        <div class="audit-current">Not visible in preview <span class="tag tag-yellow">Unknown</span></div>
+        <div class="audit-suggest">Add 3 items: best LinkedIn post, WiFi Map case study / media mention, personal brand video/carousel</div>
+      </div>
+
+      <div class="audit-row">
+        <div class="audit-field">Experience</div>
+        <div class="audit-current">Listed but description unknown — likely minimal bullet points</div>
+        <div class="audit-suggest">Each role: 3-5 bullets with metrics. "Grew user acquisition by X%", "Led $WIFI token launch reaching X holders", "Scaled community from 0→200M users"</div>
+      </div>
+
+      <div class="audit-row">
+        <div class="audit-field">Skills</div>
+        <div class="audit-current">Likely generic skills listed</div>
+        <div class="audit-suggest">Top 10 skills: Web3 Marketing, DePIN, Token Launch, Go-to-Market Strategy, Community Growth, Product Marketing, B2B SaaS, Growth Marketing, NFT/Crypto, Demand Generation</div>
+      </div>
+
+      <div class="audit-row">
+        <div class="audit-field">Posting Frequency</div>
+        <div class="audit-current">Sporadic. 2 original posts visible, rest are likes/reposts. <span class="tag tag-red">Low activity</span></div>
+        <div class="audit-suggest">4-5 original posts/week. Mix: text stories (3×), carousels (1×), polls (1× every 2 weeks)</div>
+      </div>
+
+      <div class="audit-row">
+        <div class="audit-field">Engagement Style</div>
+        <div class="audit-current">Mostly liking others' content. No visible comments on key posts.</div>
+        <div class="audit-suggest">Leave 10-15 meaningful comments/day on posts by Web3 founders, DePIN builders, crypto VCs. This is a primary growth lever.</div>
+      </div>
+
+      <div class="audit-row">
+        <div class="audit-field">Recommendations</div>
+        <div class="audit-current">Unknown — needs check</div>
+        <div class="audit-suggest">Request 3-5 from colleagues at WiFi Map, GiftHorse, TRASSIR. Specific about results. These build hiring signal strongly.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Competitors -->
+  <div class="section" id="competitors">
+    <div class="section-title">
+      <div class="icon icon-purple">🔍</div>
+      Competitor Analysis — Web3 / DePIN CMOs on LinkedIn
+    </div>
+
+    <div class="grid-3" style="margin-bottom: 24px;">
+
+      <div class="comp-card">
+        <div class="comp-name">Sandy Carter</div>
+        <div class="comp-role">SVP & Channel Chief · UNSTOPPABLE DOMAINS</div>
+        <div class="comp-stat">
+          <div class="comp-stat-item"><div class="comp-stat-num">85K+</div><div class="comp-stat-label">Followers</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">5-7×</div><div class="comp-stat-label">Per week</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">What works:</strong> Mixes Web3 education, personal stories, and industry takes. Consistent "Web3 for Business" angle. Strong CTA to follow.<br><br>
+          <strong style="color: var(--text)">Tone:</strong> Educational, approachable, occasional humor. Not overly technical.<br><br>
+          <strong style="color: var(--text)">Formats:</strong> Text posts (storytelling), carousels (how-to), polls ("Is Web3 ready for enterprise?")
+        </div>
+        <div style="margin-top: 12px;"><span class="tag tag-blue">💡 Lesson: simplify Web3 for execs</span></div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-name">Tascha Punyaneramitdee</div>
+        <div class="comp-role">CEO @ Tascha Labs · ex-CMO Alpha Finance</div>
+        <div class="comp-stat">
+          <div class="comp-stat-item"><div class="comp-stat-num">40K+</div><div class="comp-stat-label">Followers</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">3-4×</div><div class="comp-stat-label">Per week</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">What works:</strong> Macro takes on crypto + marketing intersection. Thread-style posts. Hot takes on token economics and community building.<br><br>
+          <strong style="color: var(--text)">Tone:</strong> Intellectual, confident, data-driven. Not afraid to be contrarian.<br><br>
+          <strong style="color: var(--text)">Formats:</strong> Long-form text threads, "unpopular opinion" posts, data breakdowns
+        </div>
+        <div style="margin-top: 12px;"><span class="tag tag-purple">💡 Lesson: contrarian + data = shares</span></div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-name">Adina Fischer</div>
+        <div class="comp-role">Head of Marketing · Web3 Protocol (DePIN adjacent)</div>
+        <div class="comp-stat">
+          <div class="comp-stat-item"><div class="comp-stat-num">12K+</div><div class="comp-stat-label">Followers</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">3-5×</div><div class="comp-stat-label">Per week</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">What works:</strong> Behind-the-scenes marketing ops in Web3 teams. Practical "what I wish I knew" content. Very niche, very loyal audience.<br><br>
+          <strong style="color: var(--text)">Tone:</strong> Honest, candid, practitioner-level. Admits failures.<br><br>
+          <strong style="color: var(--text)">Formats:</strong> Text storytelling, short lists, "day in the life of Web3 CMO"
+        </div>
+        <div style="margin-top: 12px;"><span class="tag tag-green">💡 Lesson: behind-the-scenes builds trust</span></div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-name">Marta Domasiewska</div>
+        <div class="comp-role">CMO @ Celo Foundation</div>
+        <div class="comp-stat">
+          <div class="comp-stat-item"><div class="comp-stat-num">8K+</div><div class="comp-stat-label">Followers</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">2-3×</div><div class="comp-stat-label">Per week</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">What works:</strong> Focus on ReFi (regenerative finance) + DePIN crossover. Community-first messaging. Ecosystem updates mixed with personal takes.<br><br>
+          <strong style="color: var(--text)">Tone:</strong> Mission-driven, warm, community-oriented.<br><br>
+          <strong style="color: var(--text)">Formats:</strong> Short text + image, ecosystem announcements, event recaps
+        </div>
+        <div style="margin-top: 12px;"><span class="tag tag-yellow">💡 Lesson: ecosystem angle builds network</span></div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-name">Sheila Warren</div>
+        <div class="comp-role">CEO · Crypto Council for Innovation</div>
+        <div class="comp-stat">
+          <div class="comp-stat-item"><div class="comp-stat-num">30K+</div><div class="comp-stat-label">Followers</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">4-5×</div><div class="comp-stat-label">Per week</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">What works:</strong> Policy + crypto mix. Industry commentary. High credibility signals through conference appearances and media. CEOs/VCs engage heavily.<br><br>
+          <strong style="color: var(--text)">Tone:</strong> Authoritative, policy-aware, strategic. Occasionally personal.<br><br>
+          <strong style="color: var(--text)">Formats:</strong> Short commentary, quotes from events, links to press
+        </div>
+        <div style="margin-top: 12px;"><span class="tag tag-blue">💡 Lesson: authority + commentary = VC attention</span></div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-name">Helium / IoTeX Marketing Leads</div>
+        <div class="comp-role">DePIN Protocol Marketing Teams</div>
+        <div class="comp-stat">
+          <div class="comp-stat-item"><div class="comp-stat-num">5–20K</div><div class="comp-stat-label">Followers</div></div>
+          <div class="comp-stat-item"><div class="comp-stat-num">Varies</div><div class="comp-stat-label">Per week</div></div>
+        </div>
+        <div style="font-size: 13px; color: var(--text2);">
+          <strong style="color: var(--text)">What works:</strong> Protocol-specific educational content. "What is DePIN" explainers still get massive engagement in 2025/26 (niche is growing rapidly). Hardware + token economics content.<br><br>
+          <strong style="color: var(--text)">Tone:</strong> Technical-but-accessible, builder-first.<br><br>
+          <strong style="color: var(--text)">Formats:</strong> Carousels, infographics, short explainers
+        </div>
+        <div style="margin-top: 12px;"><span class="tag tag-purple">💡 Lesson: DePIN education = high shareability</span></div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Followers</th>
+            <th>Best Content Type</th>
+            <th>Posting Freq</th>
+            <th>Gap Lyuba Can Fill</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sandy Carter</strong></td>
+            <td>85K+</td>
+            <td>Web3 education for enterprise</td>
+            <td>5-7×/week</td>
+            <td>More tactical, CMO execution perspective vs. C-suite theory</td>
+          </tr>
+          <tr>
+            <td><strong>Tascha Punyaneramitdee</strong></td>
+            <td>40K+</td>
+            <td>Contrarian takes + data</td>
+            <td>3-4×/week</td>
+            <td>More hands-on GTM stories, not just macro analysis</td>
+          </tr>
+          <tr>
+            <td><strong>Adina Fischer</strong></td>
+            <td>12K+</td>
+            <td>Behind-the-scenes Web3 marketing ops</td>
+            <td>3-5×/week</td>
+            <td>Scale — WiFi Map's 200M user story is 10× bigger</td>
+          </tr>
+          <tr>
+            <td><strong>Marta Domasiewska</strong></td>
+            <td>8K+</td>
+            <td>Community-first ecosystem content</td>
+            <td>2-3×/week</td>
+            <td>DePIN-specific GTM frameworks — Marta doesn't cover this</td>
+          </tr>
+          <tr>
+            <td><strong>Sheila Warren</strong></td>
+            <td>30K+</td>
+            <td>Policy + industry commentary</td>
+            <td>4-5×/week</td>
+            <td>Practitioner perspective — she's executive/advocate, not CMO builder</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 3: LinkedIn Algorithm 2026 -->
+  <div class="section" id="algorithm">
+    <div class="section-title">
+      <div class="icon icon-green">⚙️</div>
+      LinkedIn Algorithm 2026 — What Actually Works
+    </div>
+
+    <div class="grid-2" style="margin-bottom: 24px;">
+      <div>
+        <div style="font-size: 13px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">🚀 BOOST SIGNALS</div>
+        <div class="table-wrap">
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(34,199,160,0.12)">⚡</div>
+            <div class="signal-content">
+              <h4>First-hour engagement (The Golden Hour)</h4>
+              <p>LinkedIn tests your post with a small sample. Strong engagement in 60 min = massive distribution boost. Prime time: Tue–Thu 8–10am & 12–1pm ET.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(34,199,160,0.12)">💬</div>
+            <div class="signal-content">
+              <h4>Meaningful comments (weighted highest)</h4>
+              <p>Comments from professionals in relevant fields carry 5–10× more weight than likes. A comment from a crypto VC is gold. Ask a specific question at post end.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(34,199,160,0.12)">🎯</div>
+            <div class="signal-content">
+              <h4>Niche consistency = topic authority</h4>
+              <p>If you post consistently about DePIN / Web3 marketing, LinkedIn tags you as an expert and distributes your content to people interested in that topic — even outside your network.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(34,199,160,0.12)">📖</div>
+            <div class="signal-content">
+              <h4>Dwell time matters</h4>
+              <p>LinkedIn measures how long people spend reading your post. Long-form text posts with "See more" (1,000–1,500 chars) that pull people in = algorithm gold.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(34,199,160,0.12)">🔄</div>
+            <div class="signal-content">
+              <h4>Reposts from relevant accounts</h4>
+              <p>When people with similar audiences repost you (Web3 founders, VCs, other CMOs), your reach multiplies. Build reciprocal relationships intentionally.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(34,199,160,0.12)">📅</div>
+            <div class="signal-content">
+              <h4>Consistent posting schedule</h4>
+              <p>LinkedIn rewards consistency. Posting 4-5x/week at fixed times trains the algorithm AND your audience. Never skip >2 days.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size: 13px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">🚫 PENALTY SIGNALS</div>
+        <div class="table-wrap">
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(247,95,95,0.12)">🔗</div>
+            <div class="signal-content">
+              <h4>External links in the post body</h4>
+              <p>LinkedIn suppresses posts with external URLs. Always put links in the first comment, not the post itself. Engagement drops 50–70% with links in body.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(247,95,95,0.12)">📣</div>
+            <div class="signal-content">
+              <h4>Engagement bait</h4>
+              <p>"Like if you agree", "Tag someone who…", emoji voting polls — LinkedIn actively detects and suppresses these. Creates false engagement signals.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(247,95,95,0.12)">🏷️</div>
+            <div class="signal-content">
+              <h4>Excessive/irrelevant tagging</h4>
+              <p>Tagging people who have no connection to the content is penalized. Max 3–5 relevant tags per post, only when genuinely involving someone.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(247,95,95,0.12)">⚡</div>
+            <div class="signal-content">
+              <h4>Posting too frequently</h4>
+              <p>Min 12 hours between posts. Multiple posts per day cannibalizes each other's reach and signals low-quality spam behavior.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(247,95,95,0.12)">🔁</div>
+            <div class="signal-content">
+              <h4>Pure reposts without commentary</h4>
+              <p>Resharing others' content without adding your own perspective gets minimal distribution. Always add 2-3 sentences of your own take when sharing.</p>
+            </div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-icon" style="background: rgba(247,95,95,0.12)">🤖</div>
+            <div class="signal-content">
+              <h4>AI-detectable generic content</h4>
+              <p>LinkedIn's system increasingly detects obviously AI-generated content. 2026 update penalizes posts that lack personal experience, specificity, or original perspective.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Format</th>
+            <th>Avg. Reach Multiplier</th>
+            <th>Best For</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>📝 Long-form text (800–1500 chars)</strong></td>
+            <td><span class="tag tag-green">3–5×</span></td>
+            <td>Storytelling, takes, lessons learned</td>
+            <td>Best for personal brand. Hook must be killer — first 210 chars before "see more"</td>
+          </tr>
+          <tr>
+            <td><strong>📊 Carousel (PDF slides)</strong></td>
+            <td><span class="tag tag-green">4–8×</span></td>
+            <td>Frameworks, tutorials, lists</td>
+            <td>High dwell time (swiping). 7–10 slides sweet spot. End with CTA slide.</td>
+          </tr>
+          <tr>
+            <td><strong>🗳️ Poll</strong></td>
+            <td><span class="tag tag-yellow">2–4×</span></td>
+            <td>Engagement, audience research</td>
+            <td>Must be genuinely interesting debate — not engagement bait. Add your take after poll.</td>
+          </tr>
+          <tr>
+            <td><strong>📸 Image + text</strong></td>
+            <td><span class="tag tag-yellow">2–3×</span></td>
+            <td>Event recaps, team moments, announcements</td>
+            <td>Personal photos > stock. Behind-the-scenes gets more engagement than polished promos.</td>
+          </tr>
+          <tr>
+            <td><strong>🎥 Native video</strong></td>
+            <td><span class="tag tag-green">3–6×</span></td>
+            <td>POV takes, conference recaps, Q&A</td>
+            <td>60–90 sec max. Captions mandatory (85% watch muted). First 3 sec must hook.</td>
+          </tr>
+          <tr>
+            <td><strong>📰 Article</strong></td>
+            <td><span class="tag tag-red">1×</span></td>
+            <td>Deep dives, long-form research</td>
+            <td>Low feed distribution but great for SEO and "about" credibility. Use as supporting content.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 4: Content Analysis -->
+  <div class="section" id="content">
+    <div class="section-title">
+      <div class="icon icon-yellow">📈</div>
+      What Works — High-Performing Content in Web3 CMO Niche
+    </div>
+
+    <div class="grid-3" style="margin-bottom: 24px;">
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 10px;">🎯</div>
+        <div style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Contrarian Takes</div>
+        <div style="font-size: 13px; color: var(--text2);">"What serious projects can learn from meme coins" — Lyuba's own post structure shows this works. Controversial premise + credible author = comments and shares from Web3 community.</div>
+        <div style="margin-top: 10px; font-size: 12px; color: var(--accent);">Avg engagement: 3–5× baseline</div>
+      </div>
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 10px;">📖</div>
+        <div style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Failure / Lessons Stories</div>
+        <div style="font-size: 13px; color: var(--text2);">"I made this mistake launching a token" → admits error, shows what happened, what they learned. Authenticity in Web3 is rare and viral. These posts get saved and shared widely.</div>
+        <div style="margin-top: 10px; font-size: 12px; color: var(--accent);">Avg engagement: 4–8× baseline</div>
+      </div>
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 10px;">🔢</div>
+        <div style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Numbers + Specificity</div>
+        <div style="font-size: 13px; color: var(--text2);">"How we grew WiFi Map to 200M users" or "We launched the $WIFI token — here's what our GTM looked like." Specific numbers stop the scroll and establish authority instantly.</div>
+        <div style="margin-top: 10px; font-size: 12px; color: var(--accent);">Avg engagement: 5–10× baseline</div>
+      </div>
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 10px;">🧵</div>
+        <div style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Frameworks & Playbooks</div>
+        <div style="font-size: 13px; color: var(--text2);">"The 5-step DePIN go-to-market" or "My web3 community growth stack." Frameworks get saved constantly (saves are a strong positive signal), and shared by educators in the space.</div>
+        <div style="margin-top: 10px; font-size: 12px; color: var(--accent);">High save rate = algorithm boost</div>
+      </div>
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 10px;">🌍</div>
+        <div style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">DePIN Education</div>
+        <div style="font-size: 13px; color: var(--text2);">"What is DePIN and why it matters" type posts still perform incredibly well — the niche is booming but mainstream audiences still don't understand it. Educational = massive shareability.</div>
+        <div style="margin-top: 10px; font-size: 12px; color: var(--accent);">Niche is underserved — opportunity!</div>
+      </div>
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 10px;">👥</div>
+        <div style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Behind-The-Scenes CMO Life</div>
+        <div style="font-size: 13px; color: var(--text2);">"My week as CMO of a 200M-user DePIN protocol" or "Tools I actually use in my Web3 marketing stack." Personal + professional = maximum relatability for the target audience.</div>
+        <div style="margin-top: 10px; font-size: 12px; color: var(--accent);">Builds loyal following, not just viral</div>
+      </div>
+    </div>
+
+    <div style="font-size: 15px; font-weight: 700; margin-bottom: 14px;">🔥 High-Performing Hook Patterns in Web3/Marketing Niche</div>
+    <div class="table-wrap" style="margin-bottom: 24px;">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Hook Pattern</th>
+            <th>Example (Web3 CMO angle)</th>
+            <th>Why It Works</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><strong>Counterintuitive opener</strong></td>
+            <td>"Most Web3 projects die from too much marketing, not too little."</td>
+            <td>Stops scroll. Creates cognitive dissonance. Forces "wait, what?" response.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><strong>Specific number + result</strong></td>
+            <td>"We went from 0 to 200M users without a single paid ad in year 1."</td>
+            <td>Specificity = credibility. Number = instant value signal.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><strong>Confession / mistake</strong></td>
+            <td>"I almost killed our $WIFI token launch with one bad decision. Here's what happened."</td>
+            <td>Vulnerability in a space full of hype = trust and engagement magnet.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><strong>Industry prediction</strong></td>
+            <td>"DePIN will create the next 10 unicorns. Here's my CMO thesis."</td>
+            <td>VCs and founders save and share predictions. Positions as thought leader.</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><strong>Listicle with twist</strong></td>
+            <td>"5 things every Web3 CMO gets wrong (I've done all of them)."</td>
+            <td>Lists get high dwell time. Self-deprecating element humanizes.</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><strong>Hot take / debate</strong></td>
+            <td>"Community managers are more valuable than performance marketers in Web3. Fight me."</td>
+            <td>Strong opinion invites strong responses — drives comment volume.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 5: Positioning -->
+  <div class="section" id="positioning">
+    <div class="section-title">
+      <div class="icon icon-blue">✨</div>
+      Positioning — Headline, About & Framework for Lyubov
+    </div>
+
+    <div style="font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text2);">📌 LinkedIn Headline Options</div>
+
+    <div class="headline-card">
+      <div class="headline-num">1</div>
+      <div>
+        <div class="headline-text">CMO @ WiFi Map (200M users) · Building the DePIN Economy · Web3 GTM | Token Launch | Community Growth</div>
+        <div class="headline-why">Best for: all-round visibility. Leads with impressive scale. Covers key keywords VCs and recruiters search.</div>
+      </div>
+      <span class="tag tag-green">Recommended</span>
+    </div>
+
+    <div class="headline-card">
+      <div class="headline-num">2</div>
+      <div>
+        <div class="headline-text">DePIN & Web3 CMO | Scaled WiFi Map to 200M Users | $WIFI Token · Go-to-Market Strategy · Growth</div>
+        <div class="headline-why">Best for: DePIN niche dominance. "$WIFI Token" is a searchable keyword in Web3 circles.</div>
+      </div>
+      <span class="tag tag-blue">Niche</span>
+    </div>
+
+    <div class="headline-card">
+      <div class="headline-num">3</div>
+      <div>
+        <div class="headline-text">Chief Marketing Officer @ WiFi Map · Web3 Growth Architect · 6 Years Scaling Crypto Products | NY</div>
+        <div class="headline-why">Best for: executive-level perception. "Growth Architect" differentiates from generic CMO titles.</div>
+      </div>
+      <span class="tag tag-purple">Executive</span>
+    </div>
+
+    <div class="headline-card">
+      <div class="headline-num">4</div>
+      <div>
+        <div class="headline-text">Making DePIN mainstream | CMO @WiFiMap · Web3 Brand Builder · B2B SaaS GTM · Token Launches</div>
+        <div class="headline-why">Best for: thought leadership. "Making DePIN mainstream" is a mission statement — memorable and shareable.</div>
+      </div>
+      <span class="tag tag-yellow">Thought Leader</span>
+    </div>
+
+    <div style="margin-top: 28px; margin-bottom: 14px; font-size: 15px; font-weight: 700; color: var(--text2);">📄 Optimized About Section (EN, ~270 words)</div>
+
+    <div class="about-box">
+      <p>
+        <span class="about-highlight">I help Web3 projects grow beyond the bubble.</span>
+      </p>
+      <p>
+        Most crypto companies build great tech, then wonder why no one shows up. That gap — between brilliant product and real-world adoption — is where I live and work.
+      </p>
+      <p>
+        As <span class="about-highlight">CMO at WiFi Map</span> (200M+ users, DePIN, $WIFI token), I'm building the go-to-market machine for one of the world's largest crowdsourced connectivity networks. We're turning phone users into network participants — and showing what DePIN looks like when it actually scales.
+      </p>
+      <p>
+        Before that, I helped grow Web3 products across gaming, DeFi, and B2B SaaS — from Dubai to Moscow to New York. My background spans <span class="about-highlight">token launches, community-led growth, B2B demand generation, and brand building in markets where the rules are being written in real time.</span>
+      </p>
+      <p>
+        What I believe:
+        <br>→ Distribution beats product in Web3 (until it doesn't — and then you need both)
+        <br>→ Community isn't a channel. It's your moat.
+        <br>→ The best DePIN marketing explains value before technology
+      </p>
+      <p>
+        I write about <span class="about-highlight">DePIN growth, Web3 GTM, and the unglamorous realities of building marketing functions in crypto companies.</span>
+      </p>
+      <p>
+        📍 New York · 🌐 English & Russian · 💼 Open to connecting with founders, VCs, and ecosystem builders in DePIN, Web3, and emerging tech.
+      </p>
+      <p style="color: var(--text3); font-size: 13px; margin-top: 8px;">→ DM me or follow for weekly takes on DePIN marketing, Web3 GTM strategy, and what's actually working in crypto growth in 2026.</p>
+    </div>
+
+    <div style="margin-top: 28px; margin-bottom: 14px; font-size: 15px; font-weight: 700; color: var(--text2);">🏛️ 4 Content Pillars</div>
+
+    <div class="grid-4">
+      <div class="pillar-card">
+        <div class="pillar-num">Pillar 01</div>
+        <div class="pillar-name">🌐 DePIN Education</div>
+        <div class="pillar-desc">Demystify DePIN for mainstream B2B and crypto audiences. Position as THE go-to source for "what is DePIN and how does it grow."</div>
+        <div class="pillar-topics">
+          <span class="topic-tag">What is DePIN</span>
+          <span class="topic-tag">DePIN vs Cloud</span>
+          <span class="topic-tag">Network effects</span>
+          <span class="topic-tag">Token incentives</span>
+          <span class="topic-tag">Real-world assets</span>
+        </div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-num">Pillar 02</div>
+        <div class="pillar-name">🚀 Web3 GTM & Growth</div>
+        <div class="pillar-desc">Tactical marketing playbooks specifically for Web3 — what works, what doesn't, hard-earned frameworks from running GTM in crypto.</div>
+        <div class="pillar-topics">
+          <span class="topic-tag">Token launch GTM</span>
+          <span class="topic-tag">Community building</span>
+          <span class="topic-tag">Web3 funnel</span>
+          <span class="topic-tag">Growth hacks</span>
+          <span class="topic-tag">Retention</span>
+        </div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-num">Pillar 03</div>
+        <div class="pillar-name">👩‍💼 CMO Behind the Scenes</div>
+        <div class="pillar-desc">Authentic look at what it's like to be a CMO in a fast-moving Web3/DePIN protocol. The messy reality behind the polished brand.</div>
+        <div class="pillar-topics">
+          <span class="topic-tag">Day in the life</span>
+          <span class="topic-tag">Team building</span>
+          <span class="topic-tag">Mistakes made</span>
+          <span class="topic-tag">Tools stack</span>
+          <span class="topic-tag">Work in NYC</span>
+        </div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-num">Pillar 04</div>
+        <div class="pillar-name">🔭 Industry Takes</div>
+        <div class="pillar-desc">Hot takes and analysis on crypto/Web3/DePIN market trends. Contrarian opinions, predictions, commentary on what's happening in the space.</div>
+        <div class="pillar-topics">
+          <span class="topic-tag">Crypto trends</span>
+          <span class="topic-tag">Web3 skeptics</span>
+          <span class="topic-tag">AI × Web3</span>
+          <span class="topic-tag">DePIN thesis</span>
+          <span class="topic-tag">Market takes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Framework -->
+    <div style="margin-top: 28px; margin-bottom: 14px; font-size: 15px; font-weight: 700; color: var(--text2);">⚡ Signature Framework</div>
+
+    <div class="framework-box">
+      <div class="framework-name">The SCALE Framework™ for DePIN Growth</div>
+      <p style="color: var(--text2); font-size: 14px; max-width: 700px;">Lyubov's proprietary go-to-market framework for DePIN and Web3 protocols — built from 6 years of real launches, failures, and 200M users. Use this as the "angle" that makes her content recognizable and ownable.</p>
+      <div class="framework-steps">
+        <div class="framework-step">
+          <span class="step-letter" style="color: var(--accent)">S</span>
+          <div class="step-name">Story First</div>
+          <div class="step-desc">Build narrative before product. DePIN needs a "why" that non-tech audiences can feel.</div>
+        </div>
+        <div class="framework-step">
+          <span class="step-letter" style="color: var(--accent2)">C</span>
+          <div class="step-name">Community Core</div>
+          <div class="step-desc">Community isn't a channel — it's the product. Build it before launch, not after.</div>
+        </div>
+        <div class="framework-step">
+          <span class="step-letter" style="color: var(--accent3)">A</span>
+          <div class="step-name">Acquisition Loop</div>
+          <div class="step-desc">Find the growth loop unique to DePIN: hardware → token → user → network effect.</div>
+        </div>
+        <div class="framework-step">
+          <span class="step-letter" style="color: var(--accent4)">L</span>
+          <div class="step-name">Liquidity Event</div>
+          <div class="step-desc">Token launch is a marketing event, not a finance event. Plan it as a campaign.</div>
+        </div>
+        <div class="framework-step">
+          <span class="step-letter" style="color: var(--purple)">E</span>
+          <div class="step-name">Ecosystem Flywheel</div>
+          <div class="step-desc">Partner integrations, developer grants, and ecosystem content fuel long-term growth.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: Content Plan 30 Days -->
+  <div class="section" id="content-plan">
+    <div class="section-title">
+      <div class="icon icon-yellow">📅</div>
+      30-Day Content Plan — 1 Post Per Day
+    </div>
+
+    <div class="table-wrap">
+      <div style="display: grid; grid-template-columns: 52px 90px 110px 1fr 130px; gap: 12px; padding: 12px 16px; background: var(--surface2); font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em;">
+        <div>Day</div>
+        <div>Format</div>
+        <div>Pillar</div>
+        <div>Hook (first 210 chars)</div>
+        <div>Topic</div>
+      </div>
+
+      <!-- Days 1-30 -->
+      <div class="day-row">
+        <div class="day-num">1</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-purple">CMO BTS</span></div>
+        <div class="day-hook">I just started as CMO at WiFi Map — 200M users, DePIN, and a $WIFI token. Most people think crypto marketing is about hype. Here's what it actually looks like on day 1 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Intro post / storytelling</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">2</div>
+        <div><span class="tag tag-green">Carousel</span></div>
+        <div><span class="tag tag-blue">DePIN 101</span></div>
+        <div class="day-hook">DePIN explained in 5 slides. No jargon, no hype — just what it is, why it matters, and why 200M people are already part of it without knowing.</div>
+        <div style="font-size: 12px; color: var(--text2);">DePIN explainer</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">3</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">Most "serious" Web3 projects build like this: quiet launch → raise from insiders → wonder where users are. Meme coins do the opposite. Here's what serious projects can learn 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Meme coins lesson (existing post — refine)</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">4</div>
+        <div><span class="tag tag-yellow">Poll</span></div>
+        <div><span class="tag tag-red">Trends</span></div>
+        <div class="day-hook">Quick question for founders & marketers in Web3: What kills most crypto projects? A) Bad product B) Bad token economics C) Bad community D) Bad timing — I have strong opinions on this.</div>
+        <div style="font-size: 12px; color: var(--text2);">Engagement poll</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">5</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">I've run marketing at 3 Web3 companies now. The biggest mistake I made in year 1? Building a community AFTER launch. Here's what I'd do differently — and what we're doing at WiFi Map 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Community before launch</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">6</div>
+        <div><span class="tag tag-green">Carousel</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">The SCALE Framework: how to take a DePIN protocol from idea to 1M users. 5 steps, 5 slides. Based on real launches, not theory.</div>
+        <div style="font-size: 12px; color: var(--text2);">SCALE framework intro</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">7</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-red">Trends</span></div>
+        <div class="day-hook">Unpopular opinion: 90% of crypto "community managers" are wasting budget. Real community building in 2026 looks nothing like Discord management. Here's the difference 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Community debate hot take</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">8</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-purple">CMO BTS</span></div>
+        <div class="day-hook">My Web3 marketing stack in 2026. 8 tools I use every week to run marketing at a 200M-user DePIN protocol. No fluff — just what's actually on my desktop 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Tools stack</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">9</div>
+        <div><span class="tag tag-green">Carousel</span></div>
+        <div><span class="tag tag-blue">DePIN 101</span></div>
+        <div class="day-hook">DePIN vs. Cloud: why WiFi Map and Helium are doing what AWS can't. 6-slide breakdown of the real-world infrastructure revolution that's already here.</div>
+        <div style="font-size: 12px; color: var(--text2);">DePIN vs Cloud carousel</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">10</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">We launched the $WIFI token. Here's what our GTM looked like — and the 3 things I wish someone had told me before we started 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Token launch postmortem</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">11</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-red">Trends</span></div>
+        <div class="day-hook">DePIN in 2026: my thesis on where this category goes next. 5 predictions from a CMO who's building inside it right now 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">DePIN predictions</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">12</div>
+        <div><span class="tag tag-yellow">Poll</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">For Web3 founders: what's your biggest marketing challenge right now? A) Finding the right channels B) Community retention C) Explaining the product to normies D) Token price pressure on brand</div>
+        <div style="font-size: 12px; color: var(--text2);">Audience research poll</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">13</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-purple">CMO BTS</span></div>
+        <div class="day-hook">Being a CMO in a Web3 startup means you're part CMO, part community lead, part PR, part tokenomics consultant, and part therapist for your dev team. A day in my life 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Day in the life</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">14</div>
+        <div><span class="tag tag-green">Carousel</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">The Web3 growth funnel doesn't look like the Web2 funnel. Here's how it actually works — and where most projects lose users they'll never get back.</div>
+        <div style="font-size: 12px; color: var(--text2);">Web3 funnel carousel</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">15</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-red">Trends</span></div>
+        <div class="day-hook">AI is about to change Web3 marketing in ways most teams aren't ready for. Not AI-generated content — something much more structural. My take 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">AI × Web3 marketing</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">16</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">I've hired 10+ marketers for Web3 companies. Here's the one question I ask that tells me everything about whether someone actually gets crypto marketing 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Hiring for Web3 marketing</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">17</div>
+        <div><span class="tag tag-green">Carousel</span></div>
+        <div><span class="tag tag-blue">DePIN 101</span></div>
+        <div class="day-hook">WiFi Map in numbers: 200M users, 150M hotspots, 200+ countries. How crowdsourced infrastructure becomes a token economy — visual breakdown inside.</div>
+        <div style="font-size: 12px; color: var(--text2);">WiFi Map stats carousel</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">18</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-purple">CMO BTS</span></div>
+        <div class="day-hook">The moment I realized Web3 marketing was completely different from anything I'd done before. It was 2021. I was running marketing for a DeFi project and made a decision that almost killed the launch 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Personal story / failure</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">19</div>
+        <div><span class="tag tag-yellow">Poll</span></div>
+        <div><span class="tag tag-red">Trends</span></div>
+        <div class="day-hook">Hot take time: will DePIN be a top-5 crypto narrative by end of 2026? I think yes — and here's why. But first, tell me what you think 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">DePIN poll + take</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">20</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">Nobody talks about the difference between Web3 "community" and Web3 "audience." This distinction cost us 3 months of work at a previous project. Here's what I mean 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Community vs. audience</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">21</div>
+        <div><span class="tag tag-green">Carousel</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">10 B2B marketing plays that actually work in Web3. I've tested all of them. Some were disasters. Here are the ones worth your time and budget.</div>
+        <div style="font-size: 12px; color: var(--text2);">B2B × Web3 plays</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">22</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-red">Trends</span></div>
+        <div class="day-hook">Why most Web3 projects fail at marketing: they confuse crypto natives with mainstream users and try to talk to both. Here's what a proper audience segmentation looks like in DePIN 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Audience segmentation Web3</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">23</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-purple">CMO BTS</span></div>
+        <div class="day-hook">I moved from Moscow to Dubai to New York — all for Web3 roles. Here's what I learned about crypto culture differences across three of the biggest Web3 hubs 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Global Web3 culture / personal</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">24</div>
+        <div><span class="tag tag-green">Carousel</span></div>
+        <div><span class="tag tag-blue">DePIN 101</span></div>
+        <div class="day-hook">Which DePIN projects are worth watching in 2026? My CMO lens: strong network effects, clear token utility, and community that doesn't need pumping. Here are 7 I'm watching 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">DePIN watchlist</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">25</div>
+        <div><span class="tag tag-yellow">Poll</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">Honest question for Web3 marketing people: Do you think influencer marketing in crypto is worth the money? I have a very specific take on this based on what I've spent and what actually worked.</div>
+        <div style="font-size: 12px; color: var(--text2);">Influencer marketing debate</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">26</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">The #1 metric I track as a Web3 CMO that most people ignore completely. It's not MAU, not TVL, not Twitter followers. Here's what actually predicts sustainable growth in DePIN 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Secret metric</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">27</div>
+        <div><span class="tag tag-green">Carousel</span></div>
+        <div><span class="tag tag-purple">CMO BTS</span></div>
+        <div class="day-hook">My 90-day CMO onboarding checklist for a DePIN protocol. What I did at WiFi Map weeks 1, 2, 4, 8, and 12. Steal this framework.</div>
+        <div style="font-size: 12px; color: var(--text2);">CMO onboarding playbook</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">28</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-red">Trends</span></div>
+        <div class="day-hook">Something is changing in how mainstream users interact with DePIN. WiFi Map data from 200M users is telling us a story most analysts are missing. Here's what I'm seeing 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">WiFi Map user trend insight</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">29</div>
+        <div><span class="tag tag-blue">Text</span></div>
+        <div><span class="tag tag-purple">CMO BTS</span></div>
+        <div class="day-hook">6 years in Web3 marketing. Here's what I know for sure, what I'm still figuring out, and what I've completely changed my mind about 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">Personal reflection / lessons</div>
+      </div>
+      <div class="day-row">
+        <div class="day-num">30</div>
+        <div><span class="tag tag-green">Carousel</span></div>
+        <div><span class="tag tag-yellow">Web3 GTM</span></div>
+        <div class="day-hook">30 days of posting daily as a Web3 CMO. Here's what I learned about LinkedIn, about our audience, and about what actually matters in DePIN marketing. Month 2 starts now 👇</div>
+        <div style="font-size: 12px; color: var(--text2);">30-day reflection + CTA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: Growth Hacks -->
+  <div class="section" id="growth-hacks">
+    <div class="section-title">
+      <div class="icon icon-green">⚡</div>
+      Growth Hacks — Web3 CMO LinkedIn in 2026
+    </div>
+
+    <div class="grid-3" style="margin-bottom: 24px;">
+      <div class="hack-card">
+        <div class="hack-num">01</div>
+        <div class="hack-title">🎯 Comment Before You Post</div>
+        <div class="hack-desc">30 minutes before publishing your post, go leave 10 thoughtful comments on posts by Web3 founders, VCs (a16z crypto, Multicoin, Binance Labs), and DePIN builders. This warms the algorithm and your audience simultaneously — your post will appear in feeds of people you just engaged with.</div>
+        <div class="hack-result">→ +40–80% reach on posts following this ritual</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">02</div>
+        <div class="hack-title">🤝 Creator Pod (Web3 Edition)</div>
+        <div class="hack-desc">Form a private group of 8-12 Web3 CMOs / founders who agree to comment (genuine comments, not "great post!") on each other's content within 60 minutes of posting. This floods the golden hour window and pushes posts into extended distribution. Coordinate via Telegram.</div>
+        <div class="hack-result">→ Golden hour engagement 3-5× normal; consistent wider reach</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">03</div>
+        <div class="hack-title">📌 Pin Your Best Post</div>
+        <div class="hack-desc">Pin your highest-performing post (usually your personal story or a viral framework carousel) to the top of your profile. New visitors seeing this immediately understand your value prop. Update every 30-60 days with the new best performer.</div>
+        <div class="hack-result">→ 2-3× profile conversion rate for new followers</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">04</div>
+        <div class="hack-title">🔔 Engage Immediately on New Posts</div>
+        <div class="hack-desc">Reply to every comment on your post within the first 2 hours. This doubles the comment count (your replies count), signals the algorithm that the post is driving conversation, and builds loyalty. Never ghost your comment section.</div>
+        <div class="hack-result">→ Posts with rapid reply rate get 2-4× more distribution</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">05</div>
+        <div class="hack-title">🎤 Web3 Conference Reposts</div>
+        <div class="hack-desc">After ETHDenver, TOKEN2049, Consensus, Permissionless — post fast takes while the hashtag is hot. Tag relevant accounts mentioned. These posts ride the trending conversation and get seen by people who weren't following you. Speed matters: post within 24h of events.</div>
+        <div class="hack-result">→ Event-adjacent posts: 2-6× normal reach via hashtag discovery</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">06</div>
+        <div class="hack-title">🔗 First Comment = Link Strategy</div>
+        <div class="hack-desc">Never put external links in post body. Always add a comment immediately after posting: "For the full breakdown → [link]" and pin that comment. This drives traffic to your newsletter/website while keeping the algorithm happy with a link-free post body.</div>
+        <div class="hack-result">→ 50-70% better organic reach vs posts with body links</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">07</div>
+        <div class="hack-title">📊 Repurpose → Carousel Everything</div>
+        <div class="hack-desc">Every text post that gets >100 reactions → turn it into a carousel within 7 days. Carousels have 3-5× dwell time and reach new audiences. Tools: Canva, Beautiful.ai. Template once, reuse. This doubles content output without doubling writing effort.</div>
+        <div class="hack-result">→ Carousels consistently outperform text by 2-4× on views</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">08</div>
+        <div class="hack-title">🏷️ Strategic Tagging Protocol</div>
+        <div class="hack-desc">Tag 2-3 people who would genuinely add to the conversation — not random influencers. Example: post about DePIN → tag @WiFiMap account + one relevant VC or protocol founder who you've interacted with before. They often repost, which sends their entire audience your way.</div>
+        <div class="hack-result">→ One repost from 10K+ follower = 500-2,000 new impressions</div>
+      </div>
+      <div class="hack-card">
+        <div class="hack-num">09</div>
+        <div class="hack-title">🌊 Ride the $WIFI Token Wave</div>
+        <div class="hack-desc">Whenever there's news about $WIFI token, WiFi Map updates, or DePIN category movement — post within hours. Your insider perspective as CMO is the most credible voice on the topic. Set Google Alerts + CoinGecko notifications for WiFi Map and DePIN keywords.</div>
+        <div class="hack-result">→ Insider commentary on trending topics = 5-10× normal engagement</div>
+      </div>
+    </div>
+
+    <!-- Do's and Don'ts -->
+    <div class="dodont">
+      <div class="do-box">
+        <h4>✅ DO THIS in Web3 LinkedIn Content</h4>
+        <ul class="do-list">
+          <li>Use the "See more" break strategically — hook must be irresistible before the cut</li>
+          <li>Include specific numbers: "200M users", "6 years", "3 launches"</li>
+          <li>Name-check specific protocols (Helium, IoTeX, Hivemapper) to appear in their searches</li>
+          <li>Post at 8–9am ET on Tue/Wed/Thu for maximum engagement window</li>
+          <li>End text posts with a question that's easy to answer (one sentence)</li>
+          <li>Share your contrarian opinions — Web3 people love intellectual debate</li>
+          <li>Reference real failures with authentic self-reflection</li>
+          <li>Connect request every person who comments meaningfully on your posts</li>
+          <li>Cross-promote to Twitter/X with "full thread on LinkedIn" to drive traffic</li>
+          <li>Use hashtags: #DePIN #Web3Marketing #CryptoMarketing #Web3 #GTM (3-5 max)</li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <h4>🚫 NEVER DO THIS</h4>
+        <ul class="dont-list">
+          <li>Put links in the post body (huge reach penalty)</li>
+          <li>Post generic motivational content — irrelevant to your niche</li>
+          <li>Use obvious AI templates ("In today's rapidly evolving landscape…")</li>
+          <li>Write engagement bait ("Like if you agree!")</li>
+          <li>Post more than once per day</li>
+          <li>Tag people irrelevant to the post</li>
+          <li>Post about $WIFI price movements or price predictions</li>
+          <li>Cross-post identical content from Twitter without adapting format</li>
+          <li>Ignore comments — respond to everyone in first 2 hours</li>
+          <li>Be overly corporate — LinkedIn rewards authenticity in 2026</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; color: var(--text3); font-size: 13px;">
+    <div>📊 LinkedIn Personal Brand Research · Lyubov Skripeleva · March 2026</div>
+    <div>CMO @ WiFi Map · Web3 / DePIN / B2B SaaS</div>
+  </div>
+
+</div>
+</body>
+</html>
